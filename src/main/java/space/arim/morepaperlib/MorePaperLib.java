@@ -19,14 +19,19 @@
 package space.arim.morepaperlib;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.Objects;
 
 import org.bukkit.Server;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Main usage point for MorePaperLib
+ * Main usage point for MorePaperLib. <br>
+ * <br>
+ * All public methods are implemented independently of each other.
  * 
  * @author A248
  *
@@ -43,12 +48,12 @@ public class MorePaperLib {
 	public MorePaperLib(JavaPlugin plugin) {
 		this.plugin = Objects.requireNonNull(plugin, "plugin");
 	}
-	
+
 	/**
 	 * Gets the server's command map. <br>
 	 * <br>
 	 * If the method {@code Server#getCommandMap()} exists, it will be used. Otherwise,
-	 * reflection will be attempted.
+	 * reflectively acceses the field 'commandMap'.
 	 * 
 	 * @return the server command map
 	 * @throws FeatureFailedException if all attempts to get the command map failed
@@ -59,18 +64,50 @@ public class MorePaperLib {
 			return server.getCommandMap();
 		} catch (NoSuchMethodError ignored) {}
 
-		Field commandMapField;
-		try {
-			commandMapField = server.getClass().getDeclaredField("commandMap");
-		} catch (NoSuchFieldException | SecurityException ex) {
-			throw new FeatureFailedException("Unable to find commandMap field", ex);
-		}
-		try {
-			commandMapField.setAccessible(true);
-			return (CommandMap) commandMapField.get(server);
-		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | ClassCastException ex) {
-			throw new FeatureFailedException(ex);
-		}
+		return getFieldValue(server.getClass(), server, "commandMap", CommandMap.class);
 	}
-	
+
+	/**
+	 * Gets known commands map. <br>
+	 * <br>
+	 * Uses {@code SimpleCommandMap#getKnownCommands()} if the method exists. Otherwise
+	 * reflectively accesses the field 'knownCommands'.
+	 *
+	 * @param simpleCommandMap the simple command map
+	 * @return the map of known commands
+	 * @throws FeatureFailedException if the known commands could not be retrieved
+	 */
+	public Map<String, Command> getCommandMapKnownCommands(SimpleCommandMap simpleCommandMap) {
+		try {
+			return simpleCommandMap.getKnownCommands();
+		} catch (NoSuchMethodError ignored) {}
+
+		@SuppressWarnings("unchecked")
+		Map<String, Command> knownCommands = (Map<String, Command>)
+				getFieldValue(SimpleCommandMap.class, simpleCommandMap, "knownCommands", Map.class);
+		return knownCommands;
+	}
+
+	// Visible for testing
+	<T, F> F getFieldValue(Class<? extends T> clazz, T object, String fieldName, Class<F> fieldType) {
+		Field field;
+		try {
+			field = clazz.getDeclaredField(fieldName);
+		} catch (NoSuchFieldException | SecurityException ex) {
+			throw new FeatureFailedException("Unable to find field " + fieldName, ex);
+		}
+		Object fieldValue;
+		try {
+			field.setAccessible(true);
+			fieldValue = field.get(object);
+		} catch (SecurityException | IllegalArgumentException | IllegalAccessException ex) {
+			throw new FeatureFailedException("Unable to access field " + fieldName, ex);
+		}
+		if (!fieldType.isInstance(fieldValue)) {
+			throw new FeatureFailedException(
+					"Field " + fieldName + " not an instance of " + fieldType.getName());
+		}
+		return fieldType.cast(fieldValue);
+	}
+
 }
