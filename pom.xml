@@ -2,15 +2,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
+	<parent>
+		<groupId>space.arim.parent</groupId>
+		<artifactId>common-parent</artifactId>
+		<version>0.2.0</version>
+	</parent>
+
 	<groupId>space.arim.morepaperlib</groupId>
 	<artifactId>morepaperlib</artifactId>
 	<version>0.2.0-SNAPSHOT</version>
-	<name>MorePapperLib</name>
-	
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+
+	<scm>
+		<developerConnection>scm:git:https://github.com/A248/MorePaperLib.git</developerConnection>
+	</scm>
 	
 	<licenses>
 		<license>
@@ -34,21 +39,18 @@
 	</developers>
 	
 	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<finalName>${project.name}_${project.version}</finalName>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<release>8</release>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.2.0</version>
 				<configuration>
 					<archive>
 						<manifestEntries>
@@ -57,33 +59,15 @@
 					</archive>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M5</version>
-				<configuration>
-					<trimStackTrace>false</trimStackTrace>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 	
-	<distributionManagement>
-		<repository>
-			<id>cloudsmith-deploy</id>
-			<url>https://maven.cloudsmith.io/anand-beh/lesser-gpl3/</url>
-		</repository>
-		<snapshotRepository>
-			<id>cloudsmith-deploy</id>
-			<url>https://maven.cloudsmith.io/anand-beh/lesser-gpl3/</url>
-		</snapshotRepository>
-	</distributionManagement>
-	
 	<dependencies>
 		<dependency>
-            <groupId>com.destroystokyo.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.16.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+			<groupId>com.destroystokyo.paper</groupId>
+			<artifactId>paper-api</artifactId>
+			<version>1.16.2-R0.1-20200910.231437-24</version>
+			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>junit</groupId>
@@ -102,18 +86,22 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.7.0</version>
+			<version>5.7.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>3.6.28</version>
+			<version>3.9.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	
 	<repositories>
+		<repository>
+			<id>arim-mvn-lgpl3</id>
+			<url>https://mvn-repo.arim.space/lesser-gpl3/</url>
+		</repository>
 		<repository>
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
