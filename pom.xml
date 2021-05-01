@@ -9,11 +9,11 @@
 
 	<groupId>space.arim.morepaperlib</groupId>
 	<artifactId>morepaperlib</artifactId>
-	<version>0.2.0</version>
+	<version>0.2.1-SNAPSHOT</version>
 
 	<scm>
 		<developerConnection>scm:git:https://github.com/A248/MorePaperLib.git</developerConnection>
-	  <tag>0.2.0</tag>
+	  <tag>HEAD</tag>
   </scm>
 	
 	<licenses>
