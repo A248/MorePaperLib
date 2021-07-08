@@ -109,7 +109,7 @@
 		<dependency>
 			<groupId>com.destroystokyo.paper</groupId>
 			<artifactId>paper-api</artifactId>
-			<version>1.16.5-R0.1-20210510.080906-235</version>
+			<version>1.16.5-R0.1-20210707.175034-357</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
