@@ -1,17 +1,15 @@
 package space.arim.morepaperlib.it.spigot;
 
 import org.bukkit.craftbukkit.CraftServer;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.junit.jupiter.MockitoExtension;
+import space.arim.morepaperlib.MockPlugin;
 import space.arim.morepaperlib.MorePaperLib;
 
-import java.io.File;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SpigotTest {
 
     @TempDir
-    public File dataFolder;
+    public Path dataFolder;
 
     private CraftServer server;
     private MorePaperLib morePaperLib;
@@ -27,13 +25,7 @@ public class SpigotTest {
     @BeforeEach
     public void setup() {
         server = new CraftServer();
-
-        PluginDescriptionFile descriptionFile = new PluginDescriptionFile("morepaperlib-it-spigot", "none", "none");
-        @SuppressWarnings("deprecation")
-        JavaPlugin plugin = new JavaPlugin(
-                new JavaPluginLoader(server), descriptionFile, dataFolder, dataFolder) {};
-
-        morePaperLib = new MorePaperLib(plugin);
+        morePaperLib = new MorePaperLib(MockPlugin.create(server, dataFolder));
     }
 
     @Test

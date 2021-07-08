@@ -2,9 +2,7 @@ package space.arim.morepaperlib;
 
 import org.bukkit.Server;
 import org.bukkit.command.SimpleCommandMap;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +10,7 @@ import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.File;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,9 +18,6 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class MorePaperLibTest {
-
-	@TempDir
-	public File dataFolder;
 
 	private final Server server;
 	private SimpleCommandMap commandMap;
@@ -33,13 +28,10 @@ public class MorePaperLibTest {
 	}
 
 	@BeforeEach
-	public void setup() {
+	public void setMorePaperLib(@TempDir Path dataFolder) {
 		commandMap = new SimpleCommandMap(server);
 
-		PluginDescriptionFile descriptionFile = new PluginDescriptionFile("morepaperlibtest", "none", "none");
-		@SuppressWarnings("deprecation")
-		JavaPlugin plugin = new JavaPlugin(
-				new JavaPluginLoader(server), descriptionFile, dataFolder, dataFolder) {};
+		JavaPlugin plugin = MockPlugin.create(server, dataFolder);
 
 		morePaperLib = new MorePaperLib(plugin);
 	}

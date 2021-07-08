@@ -14,6 +14,9 @@
 	<properties>
 		<junit.version>5.7.1</junit.version>
 		<mockito.version>3.9.0</mockito.version>
+		<adventure.version>4.7.0</adventure.version>
+		<archunit.version>0.20.0</archunit.version>
+		<slf4j.version>1.7.30</slf4j.version>
 		<maven.compiler.release>8</maven.compiler.release>
 	</properties>
 
@@ -49,6 +52,18 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
+				<executions>
+					<execution>
+						<id>default-testCompile</id>
+						<configuration>
+							<release>11</release>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<source>9</source>
+					<target>9</target>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -60,6 +75,13 @@
 						</manifestEntries>
 					</archive>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -105,6 +127,19 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>net.kyori</groupId>
+			<artifactId>adventure-api</artifactId>
+			<version>${adventure.version}</version>
+			<!-- It is not necessary for API users to depend on adventure unless they want to -->
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>net.kyori</groupId>
+			<artifactId>adventure-text-serializer-legacy</artifactId>
+			<version>${adventure.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>${junit.version}</version>
@@ -114,6 +149,18 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.tngtech.archunit</groupId>
+			<artifactId>archunit</artifactId>
+			<version>${archunit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

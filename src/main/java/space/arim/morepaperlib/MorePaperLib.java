@@ -49,6 +49,12 @@ public class MorePaperLib {
 		this.plugin = Objects.requireNonNull(plugin, "plugin");
 	}
 
+	/*
+	Implementation details: The following methods simply try the call and
+	catch NoSuchMethodError. This is fine considering they will only be used
+	for command registration which is not performance-sensitive.
+	 */
+
 	/**
 	 * Gets the server's command map. <br>
 	 * <br>
