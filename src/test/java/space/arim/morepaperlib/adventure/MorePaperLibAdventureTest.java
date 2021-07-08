@@ -23,6 +23,7 @@ public class MorePaperLibAdventureTest {
 
     @BeforeEach
     public void setMorePaperLibAdventure(@Mock Server server, @TempDir Path dataFolder) {
+        MockPlugin.setServerLogger(server);
         MorePaperLib morePaperLib = new MorePaperLib(MockPlugin.create(server, dataFolder));
         morePaperLibAdventure = new MorePaperLibAdventure(morePaperLib);
     }

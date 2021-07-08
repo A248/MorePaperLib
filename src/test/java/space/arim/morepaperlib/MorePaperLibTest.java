@@ -31,6 +31,7 @@ public class MorePaperLibTest {
 	public void setMorePaperLib(@TempDir Path dataFolder) {
 		commandMap = new SimpleCommandMap(server);
 
+		MockPlugin.setServerLogger(server);
 		JavaPlugin plugin = MockPlugin.create(server, dataFolder);
 
 		morePaperLib = new MorePaperLib(plugin);
