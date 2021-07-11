@@ -3,6 +3,7 @@ package space.arim.morepaperlib.adventure;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import space.arim.morepaperlib.MorePaperLib;
 
 import java.util.Objects;
@@ -47,17 +48,39 @@ public class MorePaperLibAdventure {
 
     private static final boolean HAS_KICK_METHOD = methodExists(Player.class, "kick", Component.class);
     /**
-     * Kicks a player with the given reason. If the {@code Player#kick(Component)}
+     * Kicks a player with the given reason. If the {@link Player#kick(Component)}
      * method does not exist, legacy formatting is used.
      *
      * @param player the player to kick
-     * @param message the kicm essage
+     * @param message the kick essage
      */
     public void kickPlayer(Player player, Component message) {
         if (HAS_KICK_METHOD) {
             player.kick(message);
         } else {
+            //noinspection deprecation
             player.kickPlayer(LegacyComponentSerializer.legacySection().serialize(message));
+        }
+    }
+
+    private static final boolean HAS_DISALLOW_METHOD = methodExists(
+            AsyncPlayerPreLoginEvent.class, "disallow", AsyncPlayerPreLoginEvent.Result.class, Component.class);
+    /**
+     * Disallows the login event with the given result and reason. If the
+     * {@link AsyncPlayerPreLoginEvent#disallow(AsyncPlayerPreLoginEvent.Result, Component)} method does not exist,
+     * legacy formatting is used.
+     *
+     * @param event the event
+     * @param result the event result to set
+     * @param message the denial message
+     */
+    public void disallowPreLoginEvent(AsyncPlayerPreLoginEvent event,
+                                      AsyncPlayerPreLoginEvent.Result result, Component message) {
+        if (HAS_DISALLOW_METHOD) {
+            event.disallow(result, message);
+        } else {
+            //noinspection deprecation
+            event.disallow(result, LegacyComponentSerializer.legacySection().serialize(message));
         }
     }
 
