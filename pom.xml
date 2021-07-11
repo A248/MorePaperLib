@@ -168,6 +168,11 @@
 	</dependencies>
 	
 	<repositories>
+		<!-- Needed for parent pom -->
+		<repository>
+			<id>arim-mvn-lgpl3</id>
+			<url>https://mvn-repo.arim.space/lesser-gpl3/</url>
+		</repository>
 		<repository>
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
