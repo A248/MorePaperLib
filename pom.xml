@@ -14,9 +14,9 @@
 	<properties>
 		<junit.version>5.7.1</junit.version>
 		<mockito.version>3.9.0</mockito.version>
-		<adventure.version>4.7.0</adventure.version>
+		<adventure.version>4.8.0</adventure.version>
 		<archunit.version>0.20.0</archunit.version>
-		<slf4j.version>1.7.30</slf4j.version>
+		<slf4j.version>2.0.7</slf4j.version>
 		<maven.compiler.release>8</maven.compiler.release>
 	</properties>
 
@@ -103,9 +103,9 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>com.destroystokyo.paper</groupId>
-			<artifactId>paper-api</artifactId>
-			<version>1.16.5-R0.1-20210707.175034-357</version>
+			<groupId>dev.folia</groupId>
+			<artifactId>folia-api</artifactId>
+			<version>1.19.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
@@ -126,7 +126,6 @@
 			<groupId>net.kyori</groupId>
 			<artifactId>adventure-api</artifactId>
 			<version>${adventure.version}</version>
-			<!-- It is not necessary for API users to depend on adventure unless they want to -->
 			<optional>true</optional>
 		</dependency>
 		<dependency>

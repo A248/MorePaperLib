@@ -17,10 +17,32 @@
  * and navigate to version 3 of the GNU Lesser General Public License.
  */
 
-/**
- * The classes in this package depend on the Adventure API. While MorePaperLib does not necessarily
- * depend on the adventure, the dependency being optional, users may wish to use adventure specific
- * methods via {@link space.arim.morepaperlib.adventure.MorePaperLibAdventure}
- *
- */
-package space.arim.morepaperlib.adventure;
+package space.arim.morepaperlib.scheduling;
+
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
+
+class PaperTask implements ScheduledTask {
+
+	private final org.bukkit.scheduler.BukkitTask task;
+
+	PaperTask(BukkitTask task) {
+		this.task = task;
+	}
+
+	@Override
+	public Plugin owningPlugin() {
+		return task.getOwner();
+	}
+
+	@Override
+	public void cancel() {
+		task.cancel();
+	}
+
+	@Override
+	public boolean isCancelled() {
+		return task.isCancelled();
+	}
+
+}

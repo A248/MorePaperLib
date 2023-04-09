@@ -17,10 +17,29 @@
  * and navigate to version 3 of the GNU Lesser General Public License.
  */
 
-/**
- * The classes in this package depend on the Adventure API. While MorePaperLib does not necessarily
- * depend on the adventure, the dependency being optional, users may wish to use adventure specific
- * methods via {@link space.arim.morepaperlib.adventure.MorePaperLibAdventure}
- *
- */
-package space.arim.morepaperlib.adventure;
+package space.arim.morepaperlib.scheduling;
+
+final class StandardFoliaDetection implements FoliaDetection {
+
+	private static final boolean IS_FOLIA;
+	static final StandardFoliaDetection INSTANCE = new StandardFoliaDetection();
+
+	static {
+		boolean isFolia;
+		try {
+			Class.forName("io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler");
+			isFolia = true;
+		} catch (ClassNotFoundException ignored) {
+			isFolia = false;
+		}
+		IS_FOLIA = isFolia;
+	}
+
+	private StandardFoliaDetection() {}
+
+	@Override
+	public boolean isUsingFolia() {
+		return IS_FOLIA;
+	}
+
+}

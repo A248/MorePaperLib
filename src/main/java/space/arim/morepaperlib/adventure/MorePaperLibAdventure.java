@@ -1,3 +1,22 @@
+/*
+ * MorePaperLib
+ * Copyright © 2023 Anand Beh
+ *
+ * MorePaperLib is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * MorePaperLib is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with MorePaperLib. If not, see <https://www.gnu.org/licenses/>
+ * and navigate to version 3 of the GNU Lesser General Public License.
+ */
+
 package space.arim.morepaperlib.adventure;
 
 import net.kyori.adventure.text.Component;
@@ -6,8 +25,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import space.arim.morepaperlib.MorePaperLib;
 
-import java.util.Objects;
-
 /**
  * Additional extensions which depend on the adventure API. <br>
  * <br>
@@ -15,16 +32,22 @@ import java.util.Objects;
  *
  *
  */
-public class MorePaperLibAdventure {
-    
+public final class MorePaperLibAdventure {
+
     private final MorePaperLib morePaperLib;
 
+    private final boolean hasMethodKick;
+    private final boolean hasMethodDisallow;
+
     public MorePaperLibAdventure(MorePaperLib morePaperLib) {
-        this.morePaperLib = Objects.requireNonNull(morePaperLib, "morePaperLib");
+        this.morePaperLib = morePaperLib;
+        hasMethodKick = morePaperLib.methodExists(Player.class, "kick", Component.class);
+        hasMethodDisallow = morePaperLib.methodExists(
+                AsyncPlayerPreLoginEvent.class, "disallow", AsyncPlayerPreLoginEvent.Result.class, Component.class);
     }
 
     /**
-     * Gets the {@code MorePaperLib} associated with this {@code MorePaperLibAdventur}
+     * Gets the {@code MorePaperLib} used
      *
      * @return the morepaperlib object
      */
@@ -32,21 +55,6 @@ public class MorePaperLibAdventure {
         return morePaperLib;
     }
 
-    /*
-    These implementations do not try-catch NoSuchMethodError because these methods
-    may be more sensitive to performance than the ones in MorePaperLib
-     */
-
-    private static boolean methodExists(Class<?> clazz, String methodName, Class<?>...parameterTypes) {
-        try {
-            clazz.getMethod(methodName, parameterTypes);
-            return true;
-        } catch (NoSuchMethodException ex) {
-            return false;
-        }
-    }
-
-    private static final boolean HAS_KICK_METHOD = methodExists(Player.class, "kick", Component.class);
     /**
      * Kicks a player with the given reason. If the {@link Player#kick(Component)}
      * method does not exist, legacy formatting is used.
@@ -55,7 +63,7 @@ public class MorePaperLibAdventure {
      * @param message the kick essage
      */
     public void kickPlayer(Player player, Component message) {
-        if (HAS_KICK_METHOD) {
+        if (hasMethodKick) {
             player.kick(message);
         } else {
             //noinspection deprecation
@@ -63,8 +71,6 @@ public class MorePaperLibAdventure {
         }
     }
 
-    private static final boolean HAS_DISALLOW_METHOD = methodExists(
-            AsyncPlayerPreLoginEvent.class, "disallow", AsyncPlayerPreLoginEvent.Result.class, Component.class);
     /**
      * Disallows the login event with the given result and reason. If the
      * {@link AsyncPlayerPreLoginEvent#disallow(AsyncPlayerPreLoginEvent.Result, Component)} method does not exist,
@@ -76,7 +82,7 @@ public class MorePaperLibAdventure {
      */
     public void disallowPreLoginEvent(AsyncPlayerPreLoginEvent event,
                                       AsyncPlayerPreLoginEvent.Result result, Component message) {
-        if (HAS_DISALLOW_METHOD) {
+        if (hasMethodDisallow) {
             event.disallow(result, message);
         } else {
             //noinspection deprecation

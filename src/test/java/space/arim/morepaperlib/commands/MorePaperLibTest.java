@@ -1,14 +1,37 @@
-package space.arim.morepaperlib;
+/*
+ * MorePaperLib
+ * Copyright © 2023 Anand Beh
+ *
+ * MorePaperLib is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * MorePaperLib is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with MorePaperLib. If not, see <https://www.gnu.org/licenses/>
+ * and navigate to version 3 of the GNU Lesser General Public License.
+ */
+
+package space.arim.morepaperlib.commands;
 
 import org.bukkit.Server;
 import org.bukkit.command.SimpleCommandMap;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import space.arim.morepaperlib.FeatureFailedException;
+import space.arim.morepaperlib.MockPlugin;
+import space.arim.morepaperlib.MorePaperLib;
 
 import java.nio.file.Path;
 
@@ -31,8 +54,7 @@ public class MorePaperLibTest {
 	public void setMorePaperLib(@TempDir Path dataFolder) {
 		commandMap = new SimpleCommandMap(server);
 
-		MockPlugin.setServerLogger(server);
-		JavaPlugin plugin = MockPlugin.create(server, dataFolder);
+		Plugin plugin = MockPlugin.create(server, dataFolder);
 
 		morePaperLib = new MorePaperLib(plugin);
 	}
@@ -40,18 +62,21 @@ public class MorePaperLibTest {
 	@Test
 	public void getCommandMap() {
 		when(server.getCommandMap()).thenReturn(commandMap);
-		assertEquals(commandMap, morePaperLib.getServerCommandMap());
+		assertEquals(
+				commandMap,
+				morePaperLib.commandRegistration().getServerCommandMap());
 	}
 
 	@Test
 	public void getCommandMapKnownCommands() {
 		assertEquals(
 				commandMap.getKnownCommands(),
-				morePaperLib.getCommandMapKnownCommands(commandMap));
+				morePaperLib.commandRegistration().getCommandMapKnownCommands(commandMap)
+		);
 	}
 
 	private <F> F getFieldValue(String fieldName, Class<F> fieldType) {
-		return morePaperLib.getFieldValue(getClass(), this, fieldName, fieldType);
+		return morePaperLib.commandRegistration().getFieldValue(getClass(), this, fieldName, fieldType);
 	}
 
 	private final String stringField = "value";
@@ -60,7 +85,7 @@ public class MorePaperLibTest {
 	public void getFieldValue() {
 		assertEquals(stringField, getFieldValue("stringField", String.class), "Simple access");
 
-		assertThrows(FeatureFailedException.class, () -> getFieldValue("objectField", String.class), "Wrong type");
+		Assertions.assertThrows(FeatureFailedException.class, () -> getFieldValue("objectField", String.class), "Wrong type");
 		assertEquals(objectField, getFieldValue("objectField", Object.class), "Corrected type");
 
 		assertThrows(FeatureFailedException.class, () -> getFieldValue("noField", String.class), "Does not exist");

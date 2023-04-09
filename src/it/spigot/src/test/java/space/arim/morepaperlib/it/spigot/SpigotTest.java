@@ -32,13 +32,13 @@ public class SpigotTest {
     public void getCommandMap() {
         assertEquals(
                 server.retrieveActualCommandMap(),
-                morePaperLib.getServerCommandMap());
+                morePaperLib.commandRegistration().getServerCommandMap());
     }
 
     @Test
     public void getCommandMapKnownCommands() {
         assertEquals(
                 server.retrieveActualKnownCommands(),
-                morePaperLib.getCommandMapKnownCommands(server.retrieveActualCommandMap()));
+                morePaperLib.commandRegistration().getCommandMapKnownCommands(server.retrieveActualCommandMap()));
     }
 }

@@ -17,10 +17,32 @@
  * and navigate to version 3 of the GNU Lesser General Public License.
  */
 
+package space.arim.morepaperlib.scheduling;
+
+import org.bukkit.plugin.Plugin;
+
 /**
- * The classes in this package depend on the Adventure API. While MorePaperLib does not necessarily
- * depend on the adventure, the dependency being optional, users may wish to use adventure specific
- * methods via {@link space.arim.morepaperlib.adventure.MorePaperLibAdventure}
- *
+ * A wrapper for either a standard BukkitTask or a Folia ScheduledTask
  */
-package space.arim.morepaperlib.adventure;
+public interface ScheduledTask {
+
+	/**
+	 * The plugin which created this task
+	 *
+	 * @return the owning plugin
+	 */
+	Plugin owningPlugin();
+
+	/**
+	 * Cancels the task
+	 */
+	void cancel();
+
+	/**
+	 * Determines whether the task was cancelled
+	 *
+	 * @return true if cancelled
+	 */
+	boolean isCancelled();
+
+}

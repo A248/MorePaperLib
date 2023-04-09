@@ -17,10 +17,36 @@
  * and navigate to version 3 of the GNU Lesser General Public License.
  */
 
-/**
- * The classes in this package depend on the Adventure API. While MorePaperLib does not necessarily
- * depend on the adventure, the dependency being optional, users may wish to use adventure specific
- * methods via {@link space.arim.morepaperlib.adventure.MorePaperLibAdventure}
- *
- */
-package space.arim.morepaperlib.adventure;
+package space.arim.morepaperlib.scheduling;
+
+import org.bukkit.plugin.Plugin;
+import org.checkerframework.checker.nullness.qual.Nullable;
+
+class FoliaTask implements ScheduledTask {
+
+	private final io.papermc.paper.threadedregions.scheduler.ScheduledTask task;
+
+	FoliaTask(io.papermc.paper.threadedregions.scheduler.ScheduledTask task) {
+		this.task = task;
+	}
+
+	static FoliaTask ofNullable(io.papermc.paper.threadedregions.scheduler.@Nullable ScheduledTask task) {
+		return (task == null) ? null : new FoliaTask(task);
+	}
+
+	@Override
+	public Plugin owningPlugin() {
+		return task.getOwningPlugin();
+	}
+
+	@Override
+	public void cancel() {
+		task.cancel();
+	}
+
+	@Override
+	public boolean isCancelled() {
+		return task.isCancelled();
+	}
+
+}

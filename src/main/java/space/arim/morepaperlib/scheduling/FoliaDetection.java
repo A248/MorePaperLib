@@ -17,10 +17,19 @@
  * and navigate to version 3 of the GNU Lesser General Public License.
  */
 
+package space.arim.morepaperlib.scheduling;
+
 /**
- * The classes in this package depend on the Adventure API. While MorePaperLib does not necessarily
- * depend on the adventure, the dependency being optional, users may wish to use adventure specific
- * methods via {@link space.arim.morepaperlib.adventure.MorePaperLibAdventure}
+ * Allows overriding the automatic detection of the presence of Folia
  *
  */
-package space.arim.morepaperlib.adventure;
+public interface FoliaDetection {
+
+	/**
+	 * Controls whether Folia APIs will be used in preference to BukkitScheduler
+	 *
+	 * @return true to use Folia APIs
+	 */
+	boolean isUsingFolia();
+
+}
