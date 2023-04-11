@@ -20,6 +20,7 @@
 package space.arim.morepaperlib.scheduling;
 
 import io.papermc.paper.threadedregions.scheduler.EntityScheduler;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -30,8 +31,8 @@ final class EntitySpecificScheduler implements AttachedScheduler {
 	private final EntityScheduler entityScheduler;
 	private final Plugin plugin;
 
-	EntitySpecificScheduler(EntityScheduler entityScheduler, Plugin plugin) {
-		this.entityScheduler = entityScheduler;
+	EntitySpecificScheduler(Entity entity, Plugin plugin) {
+		this.entityScheduler = entity.getScheduler();
 		this.plugin = plugin;
 	}
 

@@ -29,8 +29,8 @@ final class GlobalScheduler implements RegionalScheduler {
 	private final GlobalRegionScheduler globalRegionScheduler;
 	private final Plugin plugin;
 
-	GlobalScheduler(GlobalRegionScheduler globalRegionScheduler, Plugin plugin) {
-		this.globalRegionScheduler = globalRegionScheduler;
+	GlobalScheduler(Plugin plugin) {
+		this.globalRegionScheduler = plugin.getServer().getGlobalRegionScheduler();
 		this.plugin = plugin;
 	}
 

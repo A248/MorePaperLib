@@ -76,9 +76,7 @@ public class GracefulScheduling {
 	 */
 	public RegionalScheduler globalRegionalScheduler() {
 		if (isUsingFolia()) {
-			return new GlobalScheduler(
-					server().getGlobalRegionScheduler(), morePaperLib.getPlugin()
-			);
+			return new GlobalScheduler(morePaperLib.getPlugin());
 		}
 		return new BukkitSchedulerAsRegionalScheduler(morePaperLib);
 	}
@@ -109,9 +107,7 @@ public class GracefulScheduling {
 	 */
 	public RegionalScheduler regionSpecificScheduler(World world, int chunkX, int chunkZ) {
 		if (isUsingFolia()) {
-			return new RegionSpecificScheduler(
-					server().getRegionScheduler(), morePaperLib.getPlugin(), world, chunkX, chunkZ
-			);
+			return new RegionSpecificScheduler(morePaperLib.getPlugin(), world, chunkX, chunkZ);
 		}
 		return new BukkitSchedulerAsRegionalScheduler(morePaperLib);
 	}
@@ -125,9 +121,7 @@ public class GracefulScheduling {
 	 */
 	public AttachedScheduler entitySpecificScheduler(Entity entity) {
 		if (isUsingFolia()) {
-			return new EntitySpecificScheduler(
-					entity.getScheduler(), morePaperLib.getPlugin()
-			);
+			return new EntitySpecificScheduler(entity, morePaperLib.getPlugin());
 		}
 		return new BukkitSchedulerAsRegionalScheduler(morePaperLib).asAttachedScheduler();
 	}

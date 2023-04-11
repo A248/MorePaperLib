@@ -34,8 +34,8 @@ final class RegionSpecificScheduler implements RegionalScheduler {
 	private final int chunkX;
 	private final int chunkZ;
 
-	RegionSpecificScheduler(RegionScheduler regionScheduler, Plugin plugin, World world, int chunkX, int chunkZ) {
-		this.regionScheduler = regionScheduler;
+	RegionSpecificScheduler(Plugin plugin, World world, int chunkX, int chunkZ) {
+		this.regionScheduler = plugin.getServer().getRegionScheduler();
 		this.plugin = plugin;
 		this.world = Objects.requireNonNull(world, "world");
 		this.chunkX = chunkX;
