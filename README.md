@@ -35,7 +35,7 @@ The artifact is:
 <dependency>
     <groupId>space.arim.morepaperlib</groupId>
     <artifactId>morepaperlib</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
 </dependency>
 ```
 
