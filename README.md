@@ -7,11 +7,15 @@ Need to support Folia? Spigot? Well, MorePaperLib has you covered. Now you can e
 
 MorePaperLib covers common use cases which may require different approaches depending on the target platform. It also provides shortcuts and optimizations for platforms supporting certain API.
 
+### 
+
+Simple, useful libraries should have one purpose and carry it out effectively. There should be no bugs in such an elemental use-case. MorePaperLib is committed to unit testing every feature on every supported platform.
+
 ## Features
 
 ### Folia scheduling
 
-Paper's Folia project refactored the scheduling APIs. MorePaperLib provides a scheduling API.
+Paper's Folia project refactored the scheduling APIs. MorePaperLib provides a scheduling API that automatically switches between the Bukkit scheduler and the Folia schedulers.
 
 Correct usage of the Folia API is critical to server success. Unlike other Folia wrappers you may have found, the correctness of this library is guaranteed by the reputation of this author. I have personally already noticed, and reported, bugs in other Folia wrappers based on API abuse.
 
