@@ -2,23 +2,20 @@ package space.arim.morepaperlib.adventure;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import space.arim.morepaperlib.MockPlugin;
 import space.arim.morepaperlib.MorePaperLib;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.file.Path;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,9 +29,8 @@ public class MorePaperLibAdventureTest {
     private MorePaperLibAdventure morePaperLibAdventure;
 
     @BeforeEach
-    public void setMorePaperLibAdventure(@Mock Server server, @TempDir Path dataFolder) {
-        MorePaperLib morePaperLib = new MorePaperLib(MockPlugin.create(server, dataFolder));
-        morePaperLibAdventure = new MorePaperLibAdventure(morePaperLib);
+    public void setMorePaperLibAdventure(@Mock Plugin plugin) {
+        morePaperLibAdventure = new MorePaperLibAdventure(new MorePaperLib(plugin));
     }
 
     @Test

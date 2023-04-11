@@ -23,17 +23,12 @@ import org.bukkit.Server;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import space.arim.morepaperlib.FeatureFailedException;
-import space.arim.morepaperlib.MockPlugin;
 import space.arim.morepaperlib.MorePaperLib;
-
-import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -43,24 +38,18 @@ import static org.mockito.Mockito.when;
 public class MorePaperLibTest {
 
 	private final Server server;
-	private SimpleCommandMap commandMap;
-	private MorePaperLib morePaperLib;
+	private final MorePaperLib morePaperLib;
+	private final SimpleCommandMap commandMap;
 
-	public MorePaperLibTest(@Mock Server server) {
+	public MorePaperLibTest(@Mock Server server, @Mock Plugin plugin) {
 		this.server = server;
-	}
-
-	@BeforeEach
-	public void setMorePaperLib(@TempDir Path dataFolder) {
-		commandMap = new SimpleCommandMap(server);
-
-		Plugin plugin = MockPlugin.create(server, dataFolder);
-
 		morePaperLib = new MorePaperLib(plugin);
+		commandMap = new SimpleCommandMap(server);
 	}
 
 	@Test
 	public void getCommandMap() {
+		when(morePaperLib.getPlugin().getServer()).thenReturn(server);
 		when(server.getCommandMap()).thenReturn(commandMap);
 		assertEquals(
 				commandMap,

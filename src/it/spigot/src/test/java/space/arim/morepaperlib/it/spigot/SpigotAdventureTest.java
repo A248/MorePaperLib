@@ -3,24 +3,21 @@ package space.arim.morepaperlib.it.spigot;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import space.arim.morepaperlib.MockPlugin;
 import space.arim.morepaperlib.MorePaperLib;
 import space.arim.morepaperlib.adventure.MorePaperLibAdventure;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.file.Path;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,8 +31,8 @@ public class SpigotAdventureTest {
     private static final char SECTION = LegacyComponentSerializer.SECTION_CHAR;
 
     @BeforeEach
-    public void setMorePaperLibAdventure(@Mock Server server, @TempDir Path dataFolder) {
-        MorePaperLib morePaperLib = new MorePaperLib(MockPlugin.create(server, dataFolder));
+    public void setMorePaperLibAdventure(@Mock Plugin plugin) {
+        MorePaperLib morePaperLib = new MorePaperLib(plugin);
         morePaperLibAdventure = new MorePaperLibAdventure(morePaperLib);
     }
 

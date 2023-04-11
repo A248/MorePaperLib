@@ -49,4 +49,24 @@ class FoliaTask implements ScheduledTask {
 		return task.isCancelled();
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		FoliaTask foliaTask = (FoliaTask) o;
+		return task.equals(foliaTask.task);
+	}
+
+	@Override
+	public int hashCode() {
+		return task.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return "FoliaTask{" +
+				"task=" + task +
+				'}';
+	}
+
 }
