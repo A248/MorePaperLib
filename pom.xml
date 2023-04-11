@@ -9,7 +9,7 @@
 
 	<groupId>space.arim.morepaperlib</groupId>
 	<artifactId>morepaperlib</artifactId>
-	<version>0.4.1-SNAPSHOT</version>
+	<version>0.4.1</version>
 
 	<properties>
 		<junit.version>5.7.1</junit.version>
@@ -23,7 +23,7 @@
 
 	<scm>
 		<developerConnection>scm:git:ssh://git@github.com/A248/MorePaperLib.git</developerConnection>
-	  <tag>HEAD</tag>
+	  <tag>0.4.1</tag>
   </scm>
 	
 	<licenses>
