@@ -19,12 +19,13 @@
 
 package space.arim.morepaperlib.scheduling;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
-final class AwaitableExecution implements Runnable {
+public final class AwaitableExecution implements Runnable {
 
 	private final RegionExecutor<?> regionExecutor;
-	private final CompletableFuture<Void> completed = new CompletableFuture<>();
+	private final AtomicInteger runCounter = new AtomicInteger();
 
 	AwaitableExecution(RegionExecutor<?> regionExecutor) {
 		this.regionExecutor = regionExecutor;
@@ -32,12 +33,20 @@ final class AwaitableExecution implements Runnable {
 
 	@Override
 	public void run() {
-		completed.complete(null);
+		runCounter.getAndIncrement();
 	}
 
-	boolean verifyIfRan() {
+	public <T> Consumer<T> asConsumer() {
+		return (task) -> run();
+	}
+
+	public boolean verifyIfRan() {
+		return verifyRuns() != 0;
+	}
+
+	public int verifyRuns() {
 		regionExecutor.awaitTasks();
-		return completed.isDone();
+		return runCounter.getAndIncrement();
 	}
 
 }

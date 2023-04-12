@@ -1,15 +1,40 @@
 
 # MorePaperLib
 
+[Discord]:https://img.shields.io/discord/784154359067443280
+[License]:https://www.gnu.org/graphics/lgplv3-147x51.png
+[GitHubStar]:https://img.shields.io/github/stars/A248/MorePaperLib
+
+[![Discord]](https://discord.gg/3C4qeG8XhE) ![GitHubStar]
+
+![License]
+
 ### Gracefully and simultaneously support Spigot, Paper, Folia, etc.
 
 Need to support Folia? Spigot? Well, MorePaperLib has you covered. Now you can effortlessly support multiple versions of Spigot, Paper, **and** Folia.
 
 MorePaperLib covers common use cases which may require different approaches depending on the target platform. It also provides shortcuts and optimizations for platforms supporting certain API.
 
-### 
+### Testing Rigor
 
-Simple, useful libraries should have one purpose and carry it out effectively. There should be no bugs in such an elemental use-case. MorePaperLib is committed to unit testing every feature on every supported platform.
+Simple, useful libraries should have one purpose and carry it out effectively. There should be no bugs in such an elemental use-case.
+* MorePaperLib is covered by rigorous unit test and integration tests for every feature on every supported platform.
+* Additionally, the library is manually tested through its downstream plugins, such as in  [LibertyBans](https://github.com/A248/LibertyBans).
+
+### Examples
+
+```java
+Plugin plugin = /* your plugin */;
+MorePaperLib morePaperLib = new MorePaperLib(plugin);
+
+// Scheduling
+morePaperLib.scheduling().asyncScheduler().run(() -> plugin.getLogger().info("This runs asynchronously"));
+morePaperLib.scheduling().regionScheduler(new Location(10, 64, 15, Bukkit.getWorld("world_nether"))).run(() -> plugin.getLogger().info("This runs on the region at 10, 64, 15 in 'world_nether'"));
+morePaperLib.cancelGlobalTasks();
+
+// Command map
+CommandMap commandMap = morePaperLib.commandRegistration().getServerCommandMap();
+```
 
 ## Features
 
@@ -54,4 +79,4 @@ From repository:
 
 ### License
 
-Licensed under the GNU Lesser GPL v3, or later.
+Licensed under the GNU Lesser GPL v3, or later. See the license file for details.

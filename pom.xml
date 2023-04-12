@@ -97,6 +97,7 @@
 				<!-- Configured mostly by common-parent -->
 				<configuration>
 					<settingsFile>src/it/settings.xml</settingsFile>
+					<parallelThreads>3</parallelThreads>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -106,7 +107,7 @@
 		<dependency>
 			<groupId>dev.folia</groupId>
 			<artifactId>folia-api</artifactId>
-			<version>1.19.4-R0.1-SNAPSHOT</version>
+			<version>1.19.4-R0.1-20230411.010031-27</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
@@ -115,14 +116,6 @@
 				</exclusion>
 			</exclusions>
         </dependency>
-		<!-- Paper-API inaccurately declares fastutil as provided, causing NoClassDefFoundError
-		during tests which initialize a Paper class dependent on fastutil -->
-		<dependency>
-			<groupId>it.unimi.dsi</groupId>
-			<artifactId>fastutil</artifactId>
-			<version>8.2.2</version>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>net.kyori</groupId>
 			<artifactId>adventure-api</artifactId>

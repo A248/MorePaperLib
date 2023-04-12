@@ -38,7 +38,7 @@ public abstract class SchedulingExtension implements ParameterResolver {
 		).contains(parameterContext.getParameter().getType());
 	}
 
-	abstract RegionExecutor<?> createExecutor();
+	protected abstract RegionExecutor<?> createExecutor();
 
 	private RegionExecutor<?> getExecutor(ExtensionContext extensionContext) {
 		return extensionContext.getStore(NAMESPACE)

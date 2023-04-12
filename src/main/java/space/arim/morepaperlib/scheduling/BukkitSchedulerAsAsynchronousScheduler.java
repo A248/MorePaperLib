@@ -21,12 +21,14 @@ package space.arim.morepaperlib.scheduling;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.jetbrains.annotations.NotNull;
 import space.arim.morepaperlib.MorePaperLib;
 
+import java.time.Duration;
 import java.util.function.Consumer;
 
 @SuppressWarnings("deprecation")
-final class BukkitSchedulerAsRegionalScheduler implements RegionalScheduler {
+final class BukkitSchedulerAsAsynchronousScheduler implements AsynchronousScheduler {
 
 	private final BukkitScheduler scheduler;
 	private final Plugin plugin;
@@ -35,18 +37,18 @@ final class BukkitSchedulerAsRegionalScheduler implements RegionalScheduler {
 	private final boolean hasMethodRunTaskLater;
 	private final boolean hasMethodRunTaskTimer;
 
-	BukkitSchedulerAsRegionalScheduler(MorePaperLib morePaperLib) {
+	BukkitSchedulerAsAsynchronousScheduler(MorePaperLib morePaperLib) {
 		Plugin plugin = morePaperLib.getPlugin();
 		this.scheduler = plugin.getServer().getScheduler();
 		this.plugin = plugin;
 		hasMethodRunTask = morePaperLib.methodExists(
-				BukkitScheduler.class, "runTask", Plugin.class, Consumer.class
+				BukkitScheduler.class, "runTaskAsynchronously", Plugin.class, Consumer.class
 		);
 		hasMethodRunTaskLater = morePaperLib.methodExists(
-				BukkitScheduler.class, "runTaskLater", Plugin.class, Consumer.class, long.class
+				BukkitScheduler.class, "runTaskLaterAsynchronously", Plugin.class, Consumer.class, long.class
 		);
 		hasMethodRunTaskTimer = morePaperLib.methodExists(
-				BukkitScheduler.class, "runTaskTimer", Plugin.class, Consumer.class, long.class, long.class
+				BukkitScheduler.class, "runTaskTimerAsynchronously", Plugin.class, Consumer.class, long.class, long.class
 		);
 	}
 
@@ -54,57 +56,75 @@ final class BukkitSchedulerAsRegionalScheduler implements RegionalScheduler {
 		scheduler.cancelTasks(plugin);
 	}
 
+	private static long toTicks(Duration duration) {
+		return duration.toMillis() / 50L;
+	}
+
+	@Override
+	public void execute(@NotNull Runnable command) {
+		scheduler.runTaskAsynchronously(plugin, command);
+	}
+
 	@Override
 	public ScheduledTask run(Runnable command) {
 		return new PaperTask(
-				scheduler.runTask(plugin, command)
+				scheduler.runTaskAsynchronously(plugin, command)
 		);
 	}
 
 	@Override
 	public void run(Consumer<ScheduledTask> command) {
 		if (hasMethodRunTask) {
-			scheduler.runTask(plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)));
+			scheduler.runTaskAsynchronously(plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)));
 			return;
 		}
 		BukkitTaskConsumerToRunnable.setup(
-				command, (runnable) -> scheduler.runTask(plugin, runnable)
+				command, (runnable) -> scheduler.runTaskAsynchronously(plugin, runnable)
 		);
 	}
 
 	@Override
-	public ScheduledTask runDelayed(Runnable command, long delay) {
+	public ScheduledTask runDelayed(Runnable command, Duration delay) {
 		return new PaperTask(
-				scheduler.runTaskLater(plugin, command, delay)
+				scheduler.runTaskLaterAsynchronously(plugin, command, toTicks(delay))
 		);
 	}
 
 	@Override
-	public void runDelayed(Consumer<ScheduledTask> command, long delay) {
+	public void runDelayed(Consumer<ScheduledTask> command, Duration delay) {
+		long delayInTicks = toTicks(delay);
 		if (hasMethodRunTaskLater) {
-			scheduler.runTaskLater(plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)), delay);
+			scheduler.runTaskLaterAsynchronously(
+					plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)), delayInTicks
+			);
 			return;
 		}
 		BukkitTaskConsumerToRunnable.setup(
-				command, (runnable) -> scheduler.runTaskLater(plugin, runnable, delay)
+				command, (runnable) -> scheduler.runTaskLaterAsynchronously(plugin, runnable, delayInTicks)
 		);
 	}
 
 	@Override
-	public ScheduledTask runAtFixedRate(Runnable command, long initialDelay, long period) {
+	public ScheduledTask runAtFixedRate(Runnable command, Duration initialDelay, Duration period) {
 		return new PaperTask(
-				scheduler.runTaskTimer(plugin, command, initialDelay, period)
+				scheduler.runTaskTimerAsynchronously(plugin, command, toTicks(initialDelay), toTicks(period))
 		);
 	}
 
 	@Override
-	public void runAtFixedRate(Consumer<ScheduledTask> command, long initialDelay, long period) {
+	public void runAtFixedRate(Consumer<ScheduledTask> command, Duration initialDelay, Duration period) {
+		long initialDelayInTicks = toTicks(initialDelay);
+		long periodInTicks = toTicks(period);
 		if (hasMethodRunTaskTimer) {
-			scheduler.runTaskTimer(plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)), initialDelay, period);
+			scheduler.runTaskTimerAsynchronously(
+					plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)),
+					initialDelayInTicks, periodInTicks
+			);
 			return;
 		}
 		BukkitTaskConsumerToRunnable.setup(
-				command, (runnable) -> scheduler.runTaskTimer(plugin, runnable, initialDelay, period)
+				command,
+				(runnable) -> scheduler.runTaskTimerAsynchronously(plugin, runnable, initialDelayInTicks, periodInTicks)
 		);
 	}
 

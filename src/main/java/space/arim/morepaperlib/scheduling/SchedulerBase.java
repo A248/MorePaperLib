@@ -19,26 +19,27 @@
 
 package space.arim.morepaperlib.scheduling;
 
+import java.util.function.Consumer;
+
 /**
- * Allows overriding the automatic detection of the presence of Folia
+ * Base interface for all schedulers
  *
  */
-public interface FoliaDetection {
+public interface SchedulerBase {
 
 	/**
-	 * Controls whether Folia APIs will be used in preference to BukkitScheduler
+	 * Schedules a task
 	 *
-	 * @return true to use Folia APIs
+	 * @param command what to run
+	 * @return the task
 	 */
-	boolean isUsingFolia();
+	ScheduledTask run(Runnable command);
 
 	/**
-	 * Disables Folia API usage
+	 * Schedules a task
 	 *
-	 * @return disabled folia detection
+	 * @param command what to run
 	 */
-	static FoliaDetection disabled() {
-		return () -> false;
-	}
+	void run(Consumer<ScheduledTask> command);
 
 }

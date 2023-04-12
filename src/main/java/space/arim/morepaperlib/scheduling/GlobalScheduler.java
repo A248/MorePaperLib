@@ -34,6 +34,10 @@ final class GlobalScheduler implements RegionalScheduler {
 		this.plugin = plugin;
 	}
 
+	void cancelTasks() {
+		globalRegionScheduler.cancelTasks(plugin);
+	}
+
 	@Override
 	public ScheduledTask run(Runnable command) {
 		return new FoliaTask(

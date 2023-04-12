@@ -65,8 +65,17 @@ public class GracefulScheduling {
 		return foliaDetection.isUsingFolia();
 	}
 
-	private Server server() {
-		return morePaperLib.getPlugin().getServer();
+	/**
+	 * Obtains the asynchronous scheduler, which performs async scheduling appropriately on Folia or Bukkit
+	 * using either the Folia AsyncScheduler or Bukkit BukkitScheduler
+	 *
+	 * @return the asynchronous scheduler
+	 */
+	public AsynchronousScheduler asyncScheduler() {
+		if (isUsingFolia()) {
+			return new GlobalAsyncScheduler(morePaperLib.getPlugin());
+		}
+		return new BukkitSchedulerAsAsynchronousScheduler(morePaperLib);
 	}
 
 	/**
@@ -132,10 +141,25 @@ public class GracefulScheduling {
 	 * @return true if currently running on the global region thread, or the main thread on Bukkit
 	 */
 	public boolean isOnGlobalRegionThread() {
+		Server server = morePaperLib.getPlugin().getServer();
 		if (isUsingFolia()) {
-			return server().isGlobalTickThread();
+			return server.isGlobalTickThread();
 		}
-		return server().isPrimaryThread();
+		return server.isPrimaryThread();
+	}
+
+	/**
+	 * Cancels tasks submitted by the owning plugin, where possible. It is not possible to clear tasks
+	 * on specific entity/region schedulers when running on Folia: no such API exists.
+	 *
+	 */
+	public void cancelGlobalTasks() {
+		if (isUsingFolia()) {
+			new GlobalAsyncScheduler(morePaperLib.getPlugin()).cancelTasks();
+			new GlobalScheduler(morePaperLib.getPlugin()).cancelTasks();
+			return;
+		}
+		new BukkitSchedulerAsRegionalScheduler(morePaperLib).cancelTasks();
 	}
 
 }

@@ -19,10 +19,30 @@
 
 package space.arim.morepaperlib.scheduling;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static org.mockito.Mockito.mock;
+
 public final class FoliaSchedulingExtension extends SchedulingExtension {
 
 	@Override
-	RegionExecutor<?> createExecutor() {
-		return FoliaRegionExecutor.create();
+	protected RegionExecutor<?> createExecutor() {
+		final class FoliaRegionExecutor
+				extends RegionExecutor<io.papermc.paper.threadedregions.scheduler.ScheduledTask> {
+
+			private FoliaRegionExecutor(ExecutorService executor,
+										io.papermc.paper.threadedregions.scheduler.ScheduledTask platformTask,
+										ScheduledTask wrappedTask) {
+				super(executor, platformTask, wrappedTask);
+			}
+
+		}
+		io.papermc.paper.threadedregions.scheduler.ScheduledTask foliaTask =
+				mock(io.papermc.paper.threadedregions.scheduler.ScheduledTask.class);
+		return new FoliaRegionExecutor(
+				Executors.newSingleThreadExecutor(), foliaTask, new FoliaTask(foliaTask)
+		);
 	}
+
 }

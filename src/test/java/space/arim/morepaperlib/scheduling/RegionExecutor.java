@@ -52,14 +52,15 @@ public abstract class RegionExecutor<T> implements Executor, ExtensionContext.St
 		executor.execute(runnable);
 	}
 
-	@SuppressWarnings("unchecked")
 	public Answer<Object> runTaskWhenReceived() {
 		return invocationOnMock -> {
 			Object taskConsumer = invocationOnMock.getArgument(argumentOffset + 1);
 			if (taskConsumer instanceof Runnable) {
-				((Runnable) taskConsumer).run();
+				executor.execute((Runnable) taskConsumer);
 			} else {
-				((Consumer) taskConsumer).accept(platformTask);
+				@SuppressWarnings("unchecked")
+				Consumer<T> casted = (Consumer<T>) taskConsumer;
+				executor.execute(() -> casted.accept(platformTask));
 			}
 			return platformTask;
 		};
@@ -76,7 +77,6 @@ public abstract class RegionExecutor<T> implements Executor, ExtensionContext.St
 	void awaitTasks() {
 		// Rely on FIFO property of the executor
 		CompletableFuture.runAsync(() -> {}, executor).join();
-
 	}
 
 	@Override

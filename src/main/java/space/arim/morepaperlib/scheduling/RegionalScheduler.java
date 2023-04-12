@@ -32,22 +32,7 @@ import java.util.function.Consumer;
  * implementations differ based on how they are obtained from {@link GracefulScheduling}
  *
  */
-public interface RegionalScheduler {
-
-	/**
-	 * Schedules a task
-	 *
-	 * @param command what to run
-	 * @return the task
-	 */
-	ScheduledTask run(Runnable command);
-
-	/**
-	 * Schedules a task
-	 *
-	 * @param command what to run
-	 */
-	void run(Consumer<ScheduledTask> command);
+public interface RegionalScheduler extends SchedulerBase {
 
 	/**
 	 * Schedules a delayed task
