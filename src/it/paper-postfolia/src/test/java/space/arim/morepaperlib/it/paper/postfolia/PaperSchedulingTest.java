@@ -17,8 +17,9 @@
  * and navigate to version 3 of the GNU Lesser General Public License.
  */
 
-package space.arim.morepaperlib.it.spigot;
+package space.arim.morepaperlib.it.paper.postfolia;
 
+import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -34,8 +35,9 @@ import static org.mockito.Mockito.verify;
 
 public class PaperSchedulingTest extends BukkitSchedulerTestBase {
 
-	public PaperSchedulingTest(@Mock BukkitScheduler bukkitScheduler, @Mock World world, @Mock Entity entity) {
-		super(bukkitScheduler, world, entity);
+	public PaperSchedulingTest(@Mock Server server, @Mock BukkitScheduler bukkitScheduler,
+							   @Mock World world, @Mock Entity entity) {
+		super(server, bukkitScheduler, world, entity);
 	}
 
 	@Test

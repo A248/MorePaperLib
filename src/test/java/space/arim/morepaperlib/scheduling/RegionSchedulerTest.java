@@ -69,7 +69,8 @@ public class RegionSchedulerTest {
 					  RegionExecutor<?> region, AwaitableExecution command) {
 		when(plugin.getServer()).thenReturn(server);
 		when(server.getRegionScheduler()).thenReturn(regionScheduler);
-		scheduler = new MorePaperLib(plugin).scheduling().regionSpecificScheduler(world, chunkX, chunkZ);
+		scheduler = new GracefulScheduling(new MorePaperLib(plugin), FoliaDetection.enabled())
+				.regionSpecificScheduler(world, chunkX, chunkZ);
 		this.region = region;
 		this.command = command;
 		region.setArgumentOffset(3);

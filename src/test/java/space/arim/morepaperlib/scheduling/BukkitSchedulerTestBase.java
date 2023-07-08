@@ -38,9 +38,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -50,6 +53,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(BukkitSchedulingExtension.class)
 public abstract class BukkitSchedulerTestBase {
 
+	private final Server server;
 	protected final BukkitScheduler bukkitScheduler;
 	private final World world;
 	private final int chunkX;
@@ -60,7 +64,9 @@ public abstract class BukkitSchedulerTestBase {
 	protected RegionExecutor<?> region;
 	protected AwaitableExecution command;
 
-	public BukkitSchedulerTestBase(@Mock BukkitScheduler bukkitScheduler, @Mock World world, @Mock Entity entity) {
+	public BukkitSchedulerTestBase(@Mock Server server, @Mock BukkitScheduler bukkitScheduler,
+								   @Mock World world, @Mock Entity entity) {
+		this.server = server;
 		this.bukkitScheduler = bukkitScheduler;
 		this.world = world;
 		this.entity = entity;
@@ -81,13 +87,17 @@ public abstract class BukkitSchedulerTestBase {
 	}
 
 	@BeforeEach
-	public void setup(@Mock Plugin plugin, @Mock Server server,
-					  RegionExecutor<?> region, AwaitableExecution command) {
-		when(plugin.getServer()).thenReturn(server);
-		when(server.getScheduler()).thenReturn(bukkitScheduler);
+	public void setup(@Mock Plugin plugin, RegionExecutor<?> region, AwaitableExecution command) {
+		lenient().when(plugin.getServer()).thenReturn(server);
+		lenient().when(server.getScheduler()).thenReturn(bukkitScheduler);
 		scheduling = new GracefulScheduling(new MorePaperLib(plugin), foliaDetection());
 		this.region = region;
 		this.command = command;
+	}
+
+	@Test
+	public void isUsingFolia() {
+		assertFalse(scheduling.isUsingFolia());
 	}
 
 	@Test
@@ -158,6 +168,14 @@ public abstract class BukkitSchedulerTestBase {
 		scheduling.regionSpecificScheduler(world, chunkX, chunkZ).runAtFixedRate(command.asConsumer(), 6L, 7L);
 		scheduling.entitySpecificScheduler(entity).runAtFixedRate(command.asConsumer(), altCallback(), 6L, 7L);
 		assertEquals(4, command.verifyRuns());
+	}
+
+	@Test
+	public void isOnGlobalTickThread() {
+		when(server.isPrimaryThread()).thenReturn(true);
+		assertTrue(scheduling.isOnGlobalRegionThread());
+		verify(server).isPrimaryThread();
+		verifyNoMoreInteractions(server);
 	}
 
 	@AfterEach

@@ -19,6 +19,7 @@
 
 package space.arim.morepaperlib.it.spigot;
 
+import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -34,8 +35,9 @@ import static org.mockito.Mockito.verify;
 
 public class SpigotSchedulingTest extends BukkitSchedulerTestBase {
 
-	public SpigotSchedulingTest(@Mock BukkitScheduler bukkitScheduler, @Mock World world, @Mock Entity entity) {
-		super(bukkitScheduler, world, entity);
+	public SpigotSchedulingTest(@Mock Server server, @Mock BukkitScheduler bukkitScheduler,
+								@Mock World world, @Mock Entity entity) {
+		super(server, bukkitScheduler, world, entity);
 	}
 
 	@Test

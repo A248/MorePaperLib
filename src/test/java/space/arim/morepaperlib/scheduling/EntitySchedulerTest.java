@@ -62,7 +62,7 @@ public class EntitySchedulerTest {
 	public void setup(@Mock Plugin plugin, 
 					  RegionExecutor<?> region, AwaitableExecution command, AwaitableExecution alternate) {
 		when(entity.getScheduler()).thenReturn(entityScheduler);
-		scheduler = new MorePaperLib(plugin).scheduling().entitySpecificScheduler(entity);
+		scheduler = new GracefulScheduling(new MorePaperLib(plugin), FoliaDetection.enabled()).entitySpecificScheduler(entity);
 		this.region = region;
 		this.command = command;
 		this.alternate = alternate;

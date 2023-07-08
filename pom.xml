@@ -97,7 +97,7 @@
 				<!-- Configured mostly by common-parent -->
 				<configuration>
 					<settingsFile>src/it/settings.xml</settingsFile>
-					<parallelThreads>3</parallelThreads>
+					<parallelThreads>4</parallelThreads>
 				</configuration>
 			</plugin>
 		</plugins>
