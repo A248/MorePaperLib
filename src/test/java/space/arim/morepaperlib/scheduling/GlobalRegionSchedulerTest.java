@@ -58,7 +58,7 @@ public class GlobalRegionSchedulerTest {
 					  RegionExecutor<?> region, AwaitableExecution command) {
 		when(plugin.getServer()).thenReturn(server);
 		when(server.getGlobalRegionScheduler()).thenReturn(globalRegionScheduler);
-		scheduler = new MorePaperLib(plugin).scheduling().globalRegionalScheduler();
+		scheduler = new GracefulScheduling(new MorePaperLib(plugin), FoliaDetection.enabled()).globalRegionalScheduler();
 		this.region = region;
 		this.command = command;
 	}

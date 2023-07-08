@@ -33,12 +33,21 @@ public interface FoliaDetection {
 	boolean isUsingFolia();
 
 	/**
-	 * Disables Folia API usage
+	 * Forcibly disables Folia API usage
 	 *
 	 * @return disabled folia detection
 	 */
 	static FoliaDetection disabled() {
 		return () -> false;
+	}
+
+	/**
+	 * Forcibly enables Folia API usage
+	 *
+	 * @return enabled folia detection
+	 */
+	static FoliaDetection enabled() {
+		return () -> true;
 	}
 
 }

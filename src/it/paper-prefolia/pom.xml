@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>space.arim.morepaperlib</groupId>
-    <artifactId>it-paper</artifactId>
+    <artifactId>it-paper-prefolia</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
     <build>

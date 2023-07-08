@@ -62,7 +62,7 @@ public class AsyncSchedulerTest {
 					  RegionExecutor<?> region, AwaitableExecution command) {
 		when(plugin.getServer()).thenReturn(server);
 		when(server.getAsyncScheduler()).thenReturn(asyncScheduler);
-		scheduler = new MorePaperLib(plugin).scheduling().asyncScheduler();
+		scheduler = new GracefulScheduling(new MorePaperLib(plugin), FoliaDetection.enabled()).asyncScheduler();
 		this.region = region;
 		this.command = command;
 	}

@@ -17,7 +17,7 @@
  * and navigate to version 3 of the GNU Lesser General Public License.
  */
 
-package space.arim.morepaperlib.scheduling;
+package space.arim.morepaperlib.it.paper.prefolia;
 
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -25,6 +25,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import space.arim.morepaperlib.scheduling.BukkitSchedulerTestBase;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -32,16 +33,11 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class FoliaDisabledTest extends BukkitSchedulerTestBase {
+public class PaperSchedulingTest extends BukkitSchedulerTestBase {
 
-	public FoliaDisabledTest(@Mock Server server, @Mock BukkitScheduler bukkitScheduler,
-							 @Mock World world, @Mock Entity entity) {
+	public PaperSchedulingTest(@Mock Server server, @Mock BukkitScheduler bukkitScheduler,
+							   @Mock World world, @Mock Entity entity) {
 		super(server, bukkitScheduler, world, entity);
-	}
-
-	@Override
-	protected FoliaDetection foliaDetection() {
-		return FoliaDetection.disabled();
 	}
 
 	@Test

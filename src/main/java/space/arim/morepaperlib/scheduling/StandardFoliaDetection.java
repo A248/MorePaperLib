@@ -27,7 +27,7 @@ final class StandardFoliaDetection implements FoliaDetection {
 	static {
 		boolean isFolia;
 		try {
-			Class.forName("io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler");
+			Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
 			isFolia = true;
 		} catch (ClassNotFoundException ignored) {
 			isFolia = false;
