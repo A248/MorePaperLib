@@ -17,6 +17,8 @@ MorePaperLib covers common use cases which may require different approaches depe
 
 ### Testing Rigor
 
+*This library handles a dynamic environment with compatibility for multiple APIs, so you don't have to. However, this means it is more susceptible to platform-dependent bugs than typical libraries. We therefore recommend you stay up-to-date with releases (which are infrequent).*
+
 Simple, useful libraries should have one purpose and carry it out effectively. There should be no bugs in such an elemental use-case.
 * MorePaperLib is covered by rigorous unit test and integration tests for every feature on every supported platform.
 * Additionally, the library is manually tested through its downstream plugins, such as in  [LibertyBans](https://github.com/A248/LibertyBans).
@@ -55,6 +57,8 @@ MorePaperLib's `getServerCommandMap` method automatically uses whichever approac
 Kick players with a `Component`. Disallow login events with a `Component` reason. If Adventure is not supported, fallback occurs automatically to legacy text serialization.
 
 ## Library Details
+
+Supports Spigot and Paper from 1.8.8 to the latest version. Compatibility with Folia is guaranteed only for the latest Folia release, because Folia is unstable software.
 
 ### Artifact Info
 
