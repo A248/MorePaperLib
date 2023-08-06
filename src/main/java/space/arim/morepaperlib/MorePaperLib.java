@@ -20,6 +20,7 @@
 package space.arim.morepaperlib;
 
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.Contract;
 import space.arim.morepaperlib.commands.CommandRegistration;
 import space.arim.morepaperlib.scheduling.GracefulScheduling;
 
@@ -75,6 +76,7 @@ public class MorePaperLib {
 	 *
 	 * @return command registration
 	 */
+	@Contract(value = "-> new", pure = true)
 	public CommandRegistration commandRegistration() {
 		return new CommandRegistration(this);
 	}
@@ -84,6 +86,7 @@ public class MorePaperLib {
 	 *
 	 * @return the scheduling wrapper
 	 */
+	@Contract(value = "-> new", pure = true)
 	public GracefulScheduling scheduling() {
 		return new GracefulScheduling(this);
 	}

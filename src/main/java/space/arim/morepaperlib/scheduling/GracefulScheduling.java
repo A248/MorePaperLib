@@ -23,6 +23,7 @@ import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.Contract;
 import space.arim.morepaperlib.MorePaperLib;
 
 /**
@@ -71,6 +72,7 @@ public class GracefulScheduling {
 	 *
 	 * @return the asynchronous scheduler
 	 */
+	@Contract(value = "-> new", pure = true)
 	public AsynchronousScheduler asyncScheduler() {
 		if (isUsingFolia()) {
 			return new GlobalAsyncScheduler(morePaperLib.getPlugin());
@@ -83,6 +85,7 @@ public class GracefulScheduling {
 	 *
 	 * @return a scheduler for the global region
 	 */
+	@Contract(value = "-> new", pure = true)
 	public RegionalScheduler globalRegionalScheduler() {
 		if (isUsingFolia()) {
 			return new GlobalScheduler(morePaperLib.getPlugin());
@@ -99,6 +102,7 @@ public class GracefulScheduling {
 	 * @param location the location
 	 * @return a scheduler for the specific region
 	 */
+	@Contract(value = "_ -> new", pure = true)
 	public RegionalScheduler regionSpecificScheduler(Location location) {
 		return regionSpecificScheduler(location.getWorld(), location.getBlockX() >> 4, location.getBlockZ() >> 4);
 	}
@@ -114,6 +118,7 @@ public class GracefulScheduling {
 	 * @param chunkZ the chunk Z coordinate
 	 * @return a scheduler for the specific region
 	 */
+	@Contract(value = "_, _, _ -> new", pure = true)
 	public RegionalScheduler regionSpecificScheduler(World world, int chunkX, int chunkZ) {
 		if (isUsingFolia()) {
 			return new RegionSpecificScheduler(morePaperLib.getPlugin(), world, chunkX, chunkZ);
@@ -128,6 +133,7 @@ public class GracefulScheduling {
 	 * @param entity the entity
 	 * @return a scheduler for the entity
 	 */
+	@Contract(value = "_ -> new", pure = true)
 	public AttachedScheduler entitySpecificScheduler(Entity entity) {
 		if (isUsingFolia()) {
 			return new EntitySpecificScheduler(entity, morePaperLib.getPlugin());
