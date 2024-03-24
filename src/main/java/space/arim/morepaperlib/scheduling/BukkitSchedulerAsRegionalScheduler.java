@@ -1,6 +1,6 @@
 /*
  * MorePaperLib
- * Copyright © 2023 Anand Beh
+ * Copyright © 2024 Anand Beh
  *
  * MorePaperLib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -57,54 +57,54 @@ final class BukkitSchedulerAsRegionalScheduler implements RegionalScheduler {
 	@Override
 	public ScheduledTask run(Runnable command) {
 		return new PaperTask(
-				scheduler.runTask(plugin, command)
+				scheduler, scheduler.runTask(plugin, command)
 		);
 	}
 
 	@Override
 	public void run(Consumer<ScheduledTask> command) {
 		if (hasMethodRunTask) {
-			scheduler.runTask(plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)));
+			scheduler.runTask(plugin, (bukkitTask) -> command.accept(new PaperTask(scheduler, bukkitTask)));
 			return;
 		}
 		BukkitTaskConsumerToRunnable.setup(
-				command, (runnable) -> scheduler.runTask(plugin, runnable)
+				scheduler, command, (runnable) -> scheduler.runTask(plugin, runnable)
 		);
 	}
 
 	@Override
 	public ScheduledTask runDelayed(Runnable command, long delay) {
 		return new PaperTask(
-				scheduler.runTaskLater(plugin, command, delay)
+				scheduler, scheduler.runTaskLater(plugin, command, delay)
 		);
 	}
 
 	@Override
 	public void runDelayed(Consumer<ScheduledTask> command, long delay) {
 		if (hasMethodRunTaskLater) {
-			scheduler.runTaskLater(plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)), delay);
+			scheduler.runTaskLater(plugin, (bukkitTask) -> command.accept(new PaperTask(scheduler, bukkitTask)), delay);
 			return;
 		}
 		BukkitTaskConsumerToRunnable.setup(
-				command, (runnable) -> scheduler.runTaskLater(plugin, runnable, delay)
+				scheduler, command, (runnable) -> scheduler.runTaskLater(plugin, runnable, delay)
 		);
 	}
 
 	@Override
 	public ScheduledTask runAtFixedRate(Runnable command, long initialDelay, long period) {
 		return new PaperTask(
-				scheduler.runTaskTimer(plugin, command, initialDelay, period)
+				scheduler, scheduler.runTaskTimer(plugin, command, initialDelay, period)
 		);
 	}
 
 	@Override
 	public void runAtFixedRate(Consumer<ScheduledTask> command, long initialDelay, long period) {
 		if (hasMethodRunTaskTimer) {
-			scheduler.runTaskTimer(plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)), initialDelay, period);
+			scheduler.runTaskTimer(plugin, (bukkitTask) -> command.accept(new PaperTask(scheduler, bukkitTask)), initialDelay, period);
 			return;
 		}
 		BukkitTaskConsumerToRunnable.setup(
-				command, (runnable) -> scheduler.runTaskTimer(plugin, runnable, initialDelay, period)
+				scheduler, command, (runnable) -> scheduler.runTaskTimer(plugin, runnable, initialDelay, period)
 		);
 	}
 

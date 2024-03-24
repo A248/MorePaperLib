@@ -1,6 +1,6 @@
 /*
  * MorePaperLib
- * Copyright © 2023 Anand Beh
+ * Copyright © 2024 Anand Beh
  *
  * MorePaperLib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,6 +19,7 @@
 
 package space.arim.morepaperlib.scheduling;
 
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.concurrent.CompletableFuture;
@@ -28,21 +29,24 @@ import java.util.function.Function;
 /**
  * Fallback for older Bukkit versions which do not support Consumer methods
  */
+@SuppressWarnings("deprecation")
 final class BukkitTaskConsumerToRunnable implements Runnable {
 
+	private final BukkitScheduler scheduler;
 	private final CompletableFuture<BukkitTask> taskHolder;
 	private final Consumer<ScheduledTask> command;
 
-	BukkitTaskConsumerToRunnable(CompletableFuture<BukkitTask> taskHolder, Consumer<ScheduledTask> command) {
+	BukkitTaskConsumerToRunnable(BukkitScheduler scheduler, CompletableFuture<BukkitTask> taskHolder, Consumer<ScheduledTask> command) {
+		this.scheduler = scheduler;
 		this.taskHolder = taskHolder;
 		this.command = command;
 	}
 
-	static void setup(Consumer<ScheduledTask> command, Function<Runnable, BukkitTask> taskSubmitter) {
+	static void setup(BukkitScheduler scheduler, Consumer<ScheduledTask> command, Function<Runnable, BukkitTask> taskSubmitter) {
 		CompletableFuture<BukkitTask> futureTask = new CompletableFuture<>();
 		BukkitTask task = null;
 		try {
-			task = taskSubmitter.apply(new BukkitTaskConsumerToRunnable(futureTask, command));
+			task = taskSubmitter.apply(new BukkitTaskConsumerToRunnable(scheduler, futureTask, command));
 		} finally {
 			futureTask.complete(task);
 		}
@@ -51,7 +55,7 @@ final class BukkitTaskConsumerToRunnable implements Runnable {
 	@Override
 	public void run() {
 		BukkitTask task = taskHolder.join();
-		command.accept(new PaperTask(task));
+		command.accept(new PaperTask(scheduler, task));
 	}
 
 }

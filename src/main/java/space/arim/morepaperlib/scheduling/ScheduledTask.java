@@ -1,6 +1,6 @@
 /*
  * MorePaperLib
- * Copyright © 2023 Anand Beh
+ * Copyright © 2024 Anand Beh
  *
  * MorePaperLib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -44,5 +44,41 @@ public interface ScheduledTask {
 	 * @return true if cancelled
 	 */
 	boolean isCancelled();
+
+	/**
+	 * The execution state of this task
+	 *
+	 * @return the execution state
+	 */
+	ExecutionState getExecutionState();
+
+	/**
+	 * The status of a scheduled task. Mimics Folia's execution state but is also informed by the BukkitScheduler's
+	 * equally capable (though more messy) API in this regard.
+	 */
+	enum ExecutionState {
+		/**
+		 * The task is cancelled, and it is not running.
+		 */
+		CANCELLED,
+		/**
+		 * The task is currently executing, but future executions are cancelled and it will not run again.
+		 */
+		CANCELLED_RUNNING,
+		/**
+		 * The task has run itself to completion and is not repeating, so it will not run again.
+		 */
+		FINISHED,
+		/**
+		 * The task is currently not executing, but may begin execution in the future. That is to say, the task is
+		 * queued for a run but not yet running, and could be cancelled before that.
+		 */
+		IDLE,
+		/**
+		 * The task is currently running
+		 */
+		RUNNING,
+
+	}
 
 }

@@ -1,6 +1,6 @@
 /*
  * MorePaperLib
- * Copyright © 2023 Anand Beh
+ * Copyright © 2024 Anand Beh
  *
  * MorePaperLib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -47,6 +47,31 @@ class FoliaTask implements ScheduledTask {
 	@Override
 	public boolean isCancelled() {
 		return task.isCancelled();
+	}
+
+	@Override
+	public ExecutionState getExecutionState() {
+		ExecutionState executionState;
+		switch (task.getExecutionState()) {
+		case IDLE:
+			executionState = ExecutionState.IDLE;
+			break;
+		case RUNNING:
+			executionState = ExecutionState.RUNNING;
+			break;
+		case FINISHED:
+			executionState = ExecutionState.FINISHED;
+			break;
+		case CANCELLED:
+			executionState = ExecutionState.CANCELLED;
+			break;
+		case CANCELLED_RUNNING:
+			executionState = ExecutionState.CANCELLED_RUNNING;
+			break;
+		default:
+			throw new IncompatibleClassChangeError("Breaking changes occurred to Folia's ExecutionState");
+		}
+		return executionState;
 	}
 
 	@Override

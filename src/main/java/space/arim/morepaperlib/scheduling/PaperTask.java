@@ -1,6 +1,6 @@
 /*
  * MorePaperLib
- * Copyright © 2023 Anand Beh
+ * Copyright © 2024 Anand Beh
  *
  * MorePaperLib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,13 +20,17 @@
 package space.arim.morepaperlib.scheduling;
 
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
+@SuppressWarnings("deprecation")
 class PaperTask implements ScheduledTask {
 
+	private final BukkitScheduler scheduler;
 	private final org.bukkit.scheduler.BukkitTask task;
 
-	PaperTask(BukkitTask task) {
+	PaperTask(BukkitScheduler scheduler, BukkitTask task) {
+		this.scheduler = scheduler;
 		this.task = task;
 	}
 
@@ -43,6 +47,27 @@ class PaperTask implements ScheduledTask {
 	@Override
 	public boolean isCancelled() {
 		return task.isCancelled();
+	}
+
+	@Override
+	public ExecutionState getExecutionState() {
+		int taskId = task.getTaskId();
+		if (task.isCancelled()) {
+			// Straightforward: Either running or not, but definitely cancelled
+			return (scheduler.isCurrentlyRunning(taskId))
+					? ExecutionState.CANCELLED_RUNNING : ExecutionState.CANCELLED;
+		}
+		// A repeating task must be either cancelled, running, or queued
+		if (scheduler.isCurrentlyRunning(taskId)) {
+			// Not cancelled and currently running, so there is no other possibility
+			return ExecutionState.RUNNING;
+		}
+		if (scheduler.isQueued(taskId)) {
+			// A task that is not running, but is queued, can either be a delayed or repeating task
+			return ExecutionState.IDLE;
+		}
+		// The task is not cancelled, not running, and not queued. Only possible for finished delayed tasks
+		return ExecutionState.FINISHED;
 	}
 
 	@Override

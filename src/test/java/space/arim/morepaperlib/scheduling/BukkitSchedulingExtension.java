@@ -1,6 +1,6 @@
 /*
  * MorePaperLib
- * Copyright © 2023 Anand Beh
+ * Copyright © 2024 Anand Beh
  *
  * MorePaperLib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,6 +19,7 @@
 
 package space.arim.morepaperlib.scheduling;
 
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.concurrent.ExecutorService;
@@ -38,8 +39,10 @@ public final class BukkitSchedulingExtension extends SchedulingExtension {
 
 		}
 		BukkitTask task = mock(BukkitTask.class);
+		@SuppressWarnings("deprecation")
+		BukkitScheduler scheduler = mock(BukkitScheduler.class);
 		return new BukkitRegionExecutor(
-				Executors.newSingleThreadExecutor(), task, new PaperTask(task)
+				Executors.newSingleThreadExecutor(), task, new PaperTask(scheduler, task)
 		);
 	}
 

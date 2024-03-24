@@ -1,6 +1,6 @@
 /*
  * MorePaperLib
- * Copyright © 2023 Anand Beh
+ * Copyright © 2024 Anand Beh
  *
  * MorePaperLib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -52,10 +52,6 @@ final class BukkitSchedulerAsAsynchronousScheduler implements AsynchronousSchedu
 		);
 	}
 
-	void cancelTasks() {
-		scheduler.cancelTasks(plugin);
-	}
-
 	private static long toTicks(Duration duration) {
 		return duration.toMillis() / 50L;
 	}
@@ -68,25 +64,25 @@ final class BukkitSchedulerAsAsynchronousScheduler implements AsynchronousSchedu
 	@Override
 	public ScheduledTask run(Runnable command) {
 		return new PaperTask(
-				scheduler.runTaskAsynchronously(plugin, command)
+				scheduler, scheduler.runTaskAsynchronously(plugin, command)
 		);
 	}
 
 	@Override
 	public void run(Consumer<ScheduledTask> command) {
 		if (hasMethodRunTask) {
-			scheduler.runTaskAsynchronously(plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)));
+			scheduler.runTaskAsynchronously(plugin, (bukkitTask) -> command.accept(new PaperTask(scheduler, bukkitTask)));
 			return;
 		}
 		BukkitTaskConsumerToRunnable.setup(
-				command, (runnable) -> scheduler.runTaskAsynchronously(plugin, runnable)
+				scheduler, command, (runnable) -> scheduler.runTaskAsynchronously(plugin, runnable)
 		);
 	}
 
 	@Override
 	public ScheduledTask runDelayed(Runnable command, Duration delay) {
 		return new PaperTask(
-				scheduler.runTaskLaterAsynchronously(plugin, command, toTicks(delay))
+				scheduler, scheduler.runTaskLaterAsynchronously(plugin, command, toTicks(delay))
 		);
 	}
 
@@ -95,19 +91,19 @@ final class BukkitSchedulerAsAsynchronousScheduler implements AsynchronousSchedu
 		long delayInTicks = toTicks(delay);
 		if (hasMethodRunTaskLater) {
 			scheduler.runTaskLaterAsynchronously(
-					plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)), delayInTicks
+					plugin, (bukkitTask) -> command.accept(new PaperTask(scheduler, bukkitTask)), delayInTicks
 			);
 			return;
 		}
 		BukkitTaskConsumerToRunnable.setup(
-				command, (runnable) -> scheduler.runTaskLaterAsynchronously(plugin, runnable, delayInTicks)
+				scheduler, command, (runnable) -> scheduler.runTaskLaterAsynchronously(plugin, runnable, delayInTicks)
 		);
 	}
 
 	@Override
 	public ScheduledTask runAtFixedRate(Runnable command, Duration initialDelay, Duration period) {
 		return new PaperTask(
-				scheduler.runTaskTimerAsynchronously(plugin, command, toTicks(initialDelay), toTicks(period))
+				scheduler, scheduler.runTaskTimerAsynchronously(plugin, command, toTicks(initialDelay), toTicks(period))
 		);
 	}
 
@@ -117,13 +113,13 @@ final class BukkitSchedulerAsAsynchronousScheduler implements AsynchronousSchedu
 		long periodInTicks = toTicks(period);
 		if (hasMethodRunTaskTimer) {
 			scheduler.runTaskTimerAsynchronously(
-					plugin, (bukkitTask) -> command.accept(new PaperTask(bukkitTask)),
+					plugin, (bukkitTask) -> command.accept(new PaperTask(scheduler, bukkitTask)),
 					initialDelayInTicks, periodInTicks
 			);
 			return;
 		}
 		BukkitTaskConsumerToRunnable.setup(
-				command,
+				scheduler, command,
 				(runnable) -> scheduler.runTaskTimerAsynchronously(plugin, runnable, initialDelayInTicks, periodInTicks)
 		);
 	}
