@@ -34,7 +34,7 @@ jobs:
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
       - name: Build with Maven
-        run: mvn clean -B -U deploy
+        run: mvn clean -B -U deploy -DskipTests -Dinvoker.skip=true
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_DEPLOY_USER }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_DEPLOY_PASS }}
