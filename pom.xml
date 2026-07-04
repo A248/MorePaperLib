@@ -179,9 +179,9 @@
 			<url>https://mvn-repo.arim.space/lesser-gpl3/</url>
 		</repository>
 		<repository>
-            <id>papermc</id>
-            <url>https://repo.papermc.io/repository/maven-releases/</url>
-        </repository>
+			<id>papermc</id>
+			<url>https://repo.papermc.io/repository/maven-releases/</url>
+		</repository>
 		<repository>
 			<id>papermc-snapshots</id>
 			<url>https://repo.papermc.io/repository/maven-snapshots/</url>

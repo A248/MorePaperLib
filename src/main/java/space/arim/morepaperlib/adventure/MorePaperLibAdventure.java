@@ -111,7 +111,7 @@ public final class MorePaperLibAdventure {
      * @return the resulting component
      */
     @SuppressWarnings("deprecation")
-    public Component textOfChildren(ComponentLike...components) {
+    public TextComponent textOfChildren(ComponentLike...components) {
         if (hasTextOfChildren) {
             return Component.textOfChildren(components);
         } else {
