@@ -1,10 +1,29 @@
+<!--
+  ~ MorePaperLib
+  ~ Copyright © 2026 Anand Beh
+  ~
+  ~ MorePaperLib is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ MorePaperLib is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with MorePaperLib. If not, see <https://www.gnu.org/licenses/>
+  ~ and navigate to version 3 of the GNU Lesser General Public License.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>space.arim.parent</groupId>
 		<artifactId>common-parent</artifactId>
-		<version>0.2.0</version>
+		<version>0.4.4</version>
 	</parent>
 
 	<groupId>space.arim.morepaperlib</groupId>
@@ -12,13 +31,12 @@
 	<version>0.4.5-SNAPSHOT</version>
 
 	<properties>
-		<junit.version>5.7.1</junit.version>
+		<junit.version>5.14.4</junit.version>
 		<mockito.version>3.9.0</mockito.version>
-		<adventure.version>4.8.0</adventure.version>
-		<archunit.version>0.20.0</archunit.version>
+		<adventure.version>4.26.1</adventure.version>
+		<archunit.version>1.4.2</archunit.version>
 		<!-- Keep in sync with Folia/Paper -->
 		<slf4j.version>1.8.0-beta4</slf4j.version>
-		<maven.compiler.release>8</maven.compiler.release>
 	</properties>
 
 	<scm>
@@ -36,14 +54,14 @@
 	
 	<developers>
 		<developer>
-			<id>anandbeh</id>
-			<name>Anand Beh</name>
-			<url>https://www.arim.space</url>
+			<id>a248</id>
+			<name>A248</name>
+			<email>a248-dev@tuta.io</email>
+			<url>https://github.com/A248</url>
 			<roles>
 				<role>creator</role>
 				<role>developer</role>
 			</roles>
-			<timezone>America/New_York</timezone>
 		</developer>
 	</developers>
 	
@@ -52,15 +70,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-				<executions>
-					<execution>
-						<id>default-testCompile</id>
-						<configuration>
-							<release>11</release>
-						</configuration>
-					</execution>
-				</executions>
+				<version>3.15.0</version>
+				<configuration>
+					<release>8</release>
+					<testRelease>11</testRelease>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -83,13 +97,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<dependencies>
-					<dependency>
-						<groupId>org.junit.jupiter</groupId>
-						<artifactId>junit-jupiter-engine</artifactId>
-						<version>${junit.version}</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -97,7 +104,8 @@
 				<!-- Configured mostly by common-parent -->
 				<configuration>
 					<settingsFile>src/it/settings.xml</settingsFile>
-					<parallelThreads>4</parallelThreads>
+					<parallelThreads>7</parallelThreads>
+					<streamLogsOnFailures>true</streamLogsOnFailures>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -120,23 +128,17 @@
 			<groupId>net.kyori</groupId>
 			<artifactId>adventure-api</artifactId>
 			<version>${adventure.version}</version>
-			<optional>true</optional>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.kyori</groupId>
 			<artifactId>adventure-text-serializer-legacy</artifactId>
 			<version>${adventure.version}</version>
-			<optional>true</optional>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-params</artifactId>
+			<artifactId>junit-jupiter</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -168,7 +170,11 @@
 		</repository>
 		<repository>
             <id>papermc</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <url>https://repo.papermc.io/repository/maven-releases/</url>
         </repository>
+		<repository>
+			<id>papermc-snapshots</id>
+			<url>https://repo.papermc.io/repository/maven-snapshots/</url>
+		</repository>
 	</repositories>
 </project>

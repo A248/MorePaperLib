@@ -24,7 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>space.arim.morepaperlib</groupId>
-    <artifactId>it-paper-prefolia</artifactId>
+    <artifactId>it-paper-adventure4-26</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
     <properties>
@@ -36,25 +36,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.15.0</version>
                 <configuration>
-                    <release>8</release>
+                    <release>25</release>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>3.5.5</version>
                 <configuration>
                     <trimStackTrace>false</trimStackTrace>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter-engine</artifactId>
-                        <version>@junit.version@</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
@@ -76,12 +69,12 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.19.4-R0.1-20230412.010331-64</version>
+            <version>26.2.build.19-alpha</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <artifactId>junit-jupiter</artifactId>
             <version>@junit.version@</version>
             <scope>test</scope>
         </dependency>
@@ -97,10 +90,6 @@
         <repository>
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-releases/</url>
-        </repository>
-        <repository>
-            <id>papermc-snapshots</id>
-            <url>https://repo.papermc.io/repository/maven-snapshots/</url>
         </repository>
     </repositories>
 </project>

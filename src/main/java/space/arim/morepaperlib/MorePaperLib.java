@@ -1,6 +1,6 @@
 /*
  * MorePaperLib
- * Copyright © 2023 Anand Beh
+ * Copyright © 2026 Anand Beh
  *
  * MorePaperLib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -67,6 +67,24 @@ public class MorePaperLib {
 			clazz.getMethod(methodName, parameterTypes);
 			return true;
 		} catch (NoSuchMethodException ex) {
+			return false;
+		}
+	}
+
+	/**
+	 * This method is used by MorePaperLib to detect the presence of certain features.
+	 * <p>
+	 * Like {@link #methodExists( Class, String, Class[])}, it may be overridden to force the usage of specific
+	 * API, but note that exact calls to this method are strictly unspecified.
+	 *
+	 * @param className the class to check for
+	 * @return true if it exists
+	 */
+	public boolean classExists(String className) {
+		try {
+			Class.forName(className, false, getClass().getClassLoader());
+			return true;
+		} catch (ClassNotFoundException ex) {
 			return false;
 		}
 	}

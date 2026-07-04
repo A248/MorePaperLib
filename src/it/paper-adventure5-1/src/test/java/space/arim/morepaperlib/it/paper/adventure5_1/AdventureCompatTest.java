@@ -17,18 +17,15 @@
  * and navigate to version 3 of the GNU Lesser General Public License.
  */
 
-package space.arim.morepaperlib.adventure;
+package space.arim.morepaperlib.it.paper.adventure5_1;
 
-import com.destroystokyo.paper.profile.PlayerProfile;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentBuilder;
 import net.kyori.adventure.text.ComponentLike;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,18 +35,16 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import space.arim.morepaperlib.MorePaperLib;
+import space.arim.morepaperlib.adventure.MorePaperLibAdventure;
+import space.arim.morepaperlib.adventure.AdventureVersion;
+import space.arim.morepaperlib.adventure.ClickEventType;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class MorePaperLibAdventureTest {
+public class AdventureCompatTest {
 
     private MorePaperLibAdventure morePaperLibAdventure;
 
@@ -59,22 +54,8 @@ public class MorePaperLibAdventureTest {
     }
 
     @Test
-    public void kickPlayer(@Mock Player player) {
-        Component message = Component.text("Kicked");
-        morePaperLibAdventure.kickPlayer(player, message);
-        verify(player).kick(message);
-    }
-
-    @ParameterizedTest
-    @EnumSource(AsyncPlayerPreLoginEvent.Result.class)
-    public void disallowPreLoginEvent(AsyncPlayerPreLoginEvent.Result result) throws UnknownHostException {
-        Component message = Component.text("Denied login");
-        InetAddress address = InetAddress.getByName("127.0.0.1");
-        AsyncPlayerPreLoginEvent event = new AsyncPlayerPreLoginEvent(
-                "A248", address, address, UUID.randomUUID(), mock(PlayerProfile.class));
-        morePaperLibAdventure.disallowPreLoginEvent(event, result, message);
-        assertSame(message, event.kickMessage());
-        assertEquals(result, event.getLoginResult());
+    public void adventureVersion() {
+        assertEquals(AdventureVersion.VER_5_1, morePaperLibAdventure.adventureVersion());
     }
 
     @Test
