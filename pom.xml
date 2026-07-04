@@ -28,7 +28,7 @@
 
 	<groupId>space.arim.morepaperlib</groupId>
 	<artifactId>morepaperlib</artifactId>
-	<version>0.4.5-SNAPSHOT</version>
+	<version>0.5.0</version>
 
 	<properties>
 		<junit.version>5.14.4</junit.version>
@@ -41,7 +41,7 @@
 
 	<scm>
 		<developerConnection>scm:git:ssh://git@github.com/A248/MorePaperLib.git</developerConnection>
-	  <tag>HEAD</tag>
+	  <tag>0.5.0</tag>
   </scm>
 	
 	<licenses>
