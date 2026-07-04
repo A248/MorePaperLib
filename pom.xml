@@ -115,7 +115,7 @@
 		<dependency>
 			<groupId>dev.folia</groupId>
 			<artifactId>folia-api</artifactId>
-			<version>1.19.4-R0.1-20230411.010031-27</version>
+			<version>1.19.4-R0.1-20230527.192927-40</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
