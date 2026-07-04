@@ -76,7 +76,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.19.4-R0.1-20230412.010331-64</version>
+            <version>1.19.4-R0.1-20230608.201059-104</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
