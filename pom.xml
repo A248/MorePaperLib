@@ -108,6 +108,16 @@
 					<streamLogsOnFailures>true</streamLogsOnFailures>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<preparationGoals>--quiet help:help</preparationGoals>
+					<goals>clean deploy -DskipTests -Dinvoker.skip=true</goals>
+					<pushChanges>false</pushChanges>
+					<localCheckout>true</localCheckout>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	
