@@ -23,6 +23,7 @@ import net.kyori.adventure.text.BuildableComponent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentBuilder;
 import net.kyori.adventure.text.ComponentLike;
+import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
@@ -56,6 +57,7 @@ public final class MorePaperLibAdventure {
     private final boolean hasTextOfChildren;
     private final boolean hasComponentToBuilder;
     private final boolean hasPlainTextComponentSerializer;
+    private final boolean hasJoinConfiguration;
 
     /**
      * Creates with the default settings
@@ -69,6 +71,7 @@ public final class MorePaperLibAdventure {
         hasTextOfChildren = morePaperLib.methodExists(Component.class, "textOfChildren", ComponentLike[].class);
         hasComponentToBuilder = morePaperLib.methodExists(Component.class, "toBuilder");
         hasPlainTextComponentSerializer = morePaperLib.classExists("net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer");
+        hasJoinConfiguration = morePaperLib.classExists("net.kyori.adventure.text.JoinConfiguration");
     }
 
     /**
@@ -95,6 +98,9 @@ public final class MorePaperLibAdventure {
         }
         if (hasComponentToBuilder) {
             return AdventureVersion.VER_4_26;
+        }
+        if (hasJoinConfiguration) {
+            return AdventureVersion.VER_4_9;
         }
         if (hasPlainTextComponentSerializer) {
             return AdventureVersion.VER_4_8;
@@ -231,6 +237,23 @@ public final class MorePaperLibAdventure {
      */
     public ClickEvent.Action clickEventAction(ClickEventType clickEventType) {
         return clickEventType.getAction();
+    }
+
+    /**
+     * Joins multiple components together, as if by Adventure 4's method:
+     * {@code Component.join(ComponentLike, ComponentLike...)}.
+     *
+     * @param separator the separator
+     * @param components the components to join
+     * @return the joined component
+     */
+    @SuppressWarnings("deprecation")
+    public Component joinComponents(ComponentLike separator, ComponentLike...components) {
+        if (hasJoinConfiguration) {
+            return Component.join(JoinConfiguration.separator(separator), components);
+        }
+        //noinspection UnstableApiUsage
+        return Component.join(separator, components);
     }
 
     /**

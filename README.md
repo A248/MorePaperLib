@@ -86,7 +86,8 @@ For each feature, the new method is used if available. Otherwise, the library fa
   * Uses `Component#toBuilder` if available, compiling against the new method (future-proof for Adventure 6)
   * `BuildableComponent` when necessary.
 * Components of children: `Component.textOfChildren` / `TextComponent.ofChildren`
-* Click event actions (ClickEvent.Action)
+* Click event actions (ClickEvent.Action) and related operations
+* Joining components like with `Component.join`
 * Plain text component serializer.
   * They deprecated PlainComponentSerializer in 4.8.0 and renamed it to PlainTextComponentSerializer. Then in 5.0, the old interface was removed.
   * This feature lets you use either class depending on which is available.

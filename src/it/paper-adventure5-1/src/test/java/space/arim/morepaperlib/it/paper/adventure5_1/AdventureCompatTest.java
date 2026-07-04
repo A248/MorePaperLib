@@ -85,6 +85,15 @@ public class AdventureCompatTest {
         assertInstanceOf(PlainTextComponentSerializer.class, morePaperLibAdventure.plainTextComponentSerializer());
     }
 
+    @Test
+    public void joinComponents() {
+        Component joined = assertDoesNotThrow(() ->
+                morePaperLibAdventure.joinComponents(Component.text(","), Component.text("one"), Component.text("two")));
+        assertEquals(
+                "one,two", morePaperLibAdventure.plainTextComponentSerializer().serialize(joined)
+        );
+    }
+
     @ParameterizedTest
     @EnumSource(ClickEventType.class)
     public void clickEventCompat(ClickEventType eventType) {

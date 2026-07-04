@@ -17,7 +17,7 @@
  * and navigate to version 3 of the GNU Lesser General Public License.
  */
 
-package space.arim.morepaperlib.it.paper.adventure4_26;
+package space.arim.morepaperlib.it.paper.adventure4_7;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentBuilder;
@@ -25,6 +25,7 @@ import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,7 +55,7 @@ public class AdventureCompatTest {
 
     @Test
     public void adventureVersion() {
-        assertEquals(AdventureVersion.VER_4_26, morePaperLibAdventure.adventureVersion());
+        assertEquals(AdventureVersion.VER_4_9, morePaperLibAdventure.adventureVersion());
     }
 
     @Test
@@ -81,6 +82,7 @@ public class AdventureCompatTest {
                 "plain",
                 morePaperLibAdventure.plainTextComponentSerializer().serialize(Component.text("plain", NamedTextColor.BLUE))
         );
+        assertInstanceOf(PlainTextComponentSerializer.class, morePaperLibAdventure.plainTextComponentSerializer());
     }
 
     @Test
@@ -95,7 +97,7 @@ public class AdventureCompatTest {
     @ParameterizedTest
     @EnumSource(ClickEventType.class)
     public void clickEventCompat(ClickEventType eventType) {
-        String value = eventType == ClickEventType.CHANGE_PAGE ? "1" : "clickme";
+        String value = "clickme";
         ClickEvent clickEvent = morePaperLibAdventure.clickEvent(eventType, value);
         assertEquals(eventType, morePaperLibAdventure.clickEventType(clickEvent));
     }

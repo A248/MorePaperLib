@@ -28,6 +28,7 @@ package space.arim.morepaperlib.adventure;
 public enum AdventureVersion {
     VER_4_7,
     VER_4_8,
+    VER_4_9,
     VER_4_26,
     VER_5_1
 }
