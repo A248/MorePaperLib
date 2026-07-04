@@ -206,12 +206,31 @@ public final class MorePaperLibAdventure {
      * @return the click event action, or {@code null} if the action type does not exist in Adventure 4.7
      */
     public @Nullable ClickEventType clickEventType(ClickEvent clickEvent) {
-        ClickEvent.Action action = clickEvent.action();
+        return clickEventType(clickEvent.action());
+    }
+
+    /**
+     * Gets the action from an adventure library action, limited to those available in Adventure 4.7
+     *
+     * @param clickEventAction the click event action
+     * @return the click event action, or {@code null} if the action type does not exist in Adventure 4.7
+     */
+    public @Nullable ClickEventType clickEventType(ClickEvent.Action clickEventAction) {
         if (isAdventure5()) {
-            return ClickEventType.fetchAdventure5(action);
+            return ClickEventType.fetchAdventure5(clickEventAction);
         } else {
-            return ClickEventType.fetchAdventure4(action);
+            return ClickEventType.fetchAdventure4(clickEventAction);
         }
+    }
+
+    /**
+     * Gets the adventure library action from a click event action
+     *
+     * @param clickEventType the click event action
+     * @return the click event action, in the adventure library
+     */
+    public ClickEvent.Action clickEventAction(ClickEventType clickEventType) {
+        return clickEventType.getAction();
     }
 
     /**

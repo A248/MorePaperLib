@@ -57,7 +57,7 @@ public enum ClickEventType {
         this.action = action;
     }
 
-    static ClickEventType fetchAdventure4(ClickEvent.Action action) {
+    static @Nullable ClickEventType fetchAdventure4(ClickEvent.Action action) {
         ClickEventType[] values = values();
         int ordinal = action.ordinal();
         if (ordinal < values.length) {
@@ -75,5 +75,9 @@ public enum ClickEventType {
             }
         }
         return null;
+    }
+
+    ClickEvent.Action getAction() {
+        return action;
     }
 }
