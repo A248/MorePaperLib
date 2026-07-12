@@ -35,6 +35,8 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import space.arim.morepaperlib.MorePaperLib;
 
+import java.util.Arrays;
+
 /**
  * Additional extensions which depend on the adventure API.
  * <p>
@@ -54,7 +56,6 @@ public final class MorePaperLibAdventure {
     private final boolean hasMethodKick;
     private final boolean hasMethodDisallow;
 
-    private final boolean hasTextOfChildren;
     private final boolean hasComponentToBuilder;
     private final boolean hasPlainTextComponentSerializer;
     private final boolean hasJoinConfiguration;
@@ -68,7 +69,6 @@ public final class MorePaperLibAdventure {
         hasMethodKick = morePaperLib.methodExists(Player.class, "kick", Component.class);
         hasMethodDisallow = morePaperLib.methodExists(
                 AsyncPlayerPreLoginEvent.class, "disallow", AsyncPlayerPreLoginEvent.Result.class, Component.class);
-        hasTextOfChildren = morePaperLib.methodExists(Component.class, "textOfChildren", ComponentLike[].class);
         hasComponentToBuilder = morePaperLib.methodExists(Component.class, "toBuilder");
         hasPlainTextComponentSerializer = morePaperLib.classExists("net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer");
         hasJoinConfiguration = morePaperLib.classExists("net.kyori.adventure.text.JoinConfiguration");
@@ -111,19 +111,17 @@ public final class MorePaperLibAdventure {
     /**
      * Creates a component from children components.
      * <p>
-     * Uses {@code Component.textOfChildren} or falls back to {@code TextComponent.ofChildren}.
+     * <b>Do not use this:</b> Use {@code Component.empty().children(Arrays.asList(...))} which is already compatible
+     * with Adventure 4 and 5.
      *
      * @param components the child components
      * @return the resulting component
+     * @deprecated It is possible to use {@code Component.empty().children(Arrays.asList(...))} as a direct alternative
+     * to this method
      */
-    @SuppressWarnings("deprecation")
+    @Deprecated
     public TextComponent textOfChildren(ComponentLike...components) {
-        if (hasTextOfChildren) {
-            return Component.textOfChildren(components);
-        } else {
-            //noinspection UnstableApiUsage
-            return TextComponent.ofChildren(components);
-        }
+        return Component.empty().children(Arrays.asList(components));
     }
 
     /**

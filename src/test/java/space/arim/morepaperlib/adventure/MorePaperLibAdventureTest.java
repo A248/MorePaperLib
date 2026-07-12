@@ -78,6 +78,7 @@ public class MorePaperLibAdventureTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void textOfChildren() {
         ComponentLike[] children = new ComponentLike[] {Component.text("one"), Component.text("two")};
         Component ofChildren = assertDoesNotThrow(() -> morePaperLibAdventure.textOfChildren(children));
