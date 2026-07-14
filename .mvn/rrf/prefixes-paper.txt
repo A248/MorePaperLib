@@ -2,3 +2,4 @@
 /com/destroystokyo/paper
 /com/velocitypowered
 /io/papermc
+/dev/folia
