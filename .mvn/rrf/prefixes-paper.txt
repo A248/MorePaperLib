@@ -3,3 +3,4 @@
 /com/velocitypowered
 /io/papermc
 /dev/folia
+/net/md-5

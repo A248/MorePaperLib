@@ -12,7 +12,7 @@ Clone the repository. Then run the build command. For example:
 ```
 git clone https://github.com/A248/MorePaperLib.git
 cd MorePaperLib
-./mvnw package -DskipTests
+./mvnw package -DskipTests -Dinvoker.skip=true
 ```
 
 ## Platforms supported
