@@ -69,6 +69,30 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>enforce-explicit-repositories</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<bannedRepositories>
+									<allowedRepositories>
+										<allowedRepository>https://repo.maven.apache.org/*</allowedRepository>
+										<allowedRepository>https://mvn-repo.arim.space/lesser-gpl3/</allowedRepository>
+										<allowedRepository>https://repo.papermc.io/repository/maven-releases/</allowedRepository>
+										<allowedRepository>https://repo.papermc.io/repository/maven-snapshots/</allowedRepository>
+									</allowedRepositories>
+								</bannedRepositories>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.15.0</version>
 				<configuration>
